@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.StoreProjectMapper">
+    <resultMap id="BaseResultMap" type="StoreProject">
+        <id column="program_id" jdbcType="INTEGER" property="programId"/>
+        <result column="appid" jdbcType="VARCHAR" property="appId"/>
+        <result column="mch_id" jdbcType="VARCHAR" property="mchId"/>
+        <result column="mch_secret" jdbcType="VARCHAR" property="mchSecret"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="storeid" jdbcType="INTEGER" property="storeId"/>
+
+    </resultMap>
+
+    <select id="storeProjectList" resultMap="BaseResultMap">
+  select * from store_project_hyj_t
+  </select>
+    <select id="getStoreInfoByAppid" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select * from store_project_hyj_t where appid=#{appId}
+  </select>
+
+    <select id="findByInfoId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from store_project_hyj_t where storeid=#{storeId}
+    </select>
+
+    <insert id="insertStoreProject" parameterType="StoreProject">
+        insert into store_project_hyj_t
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                appid,
+            </if>
+            <if test="mchId != null">
+                mch_id,
+            </if>
+            <if test="mchSecret != null">
+                mch_secret,
+            </if>
+            <if test="appSecret != null">
+                app_secret,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="storeId != null">
+                storeid,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="mchId != null">
+                #{mchId,jdbcType=DECIMAL},
+            </if>
+            <if test="mchSecret != null">
+                #{mchSecret,jdbcType=INTEGER},
+            </if>
+            <if test="appSecret != null">
+                #{appSecret,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=DECIMAL},
+            </if>
+
+        </trim>
+    </insert>
+
+    <update id="updateProject">
+        update store_project_hyj_t
+        <set>
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="mchId != null">
+                #{mchId,jdbcType=DECIMAL},
+            </if>
+            <if test="mchSecret != null">
+                #{mchSecret,jdbcType=INTEGER},
+            </if>
+            <if test="appSecret != null">
+                #{appSecret,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=DECIMAL},
+            </if>
+        </set>
+        WHERE program_id = #{programId}
+    </update>
+
+</mapper>

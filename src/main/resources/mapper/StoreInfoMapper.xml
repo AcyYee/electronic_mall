@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.StoreInfoMapper">
+    <resultMap id="BaseResultMap" type="StoreInfo">
+        <id column="store_id" jdbcType="INTEGER" property="storeId"/>
+        <result column="store_name" jdbcType="VARCHAR" property="storeName"/>
+        <result column="store_discount" jdbcType="DECIMAL" property="storeDiscount"/>
+        <result column="is_discount" jdbcType="INTEGER" property="isDiscount"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="store_turnover" jdbcType="DECIMAL" property="storeTurnover"/>
+        <result column="store_location" jdbcType="VARCHAR" property="storeLocation"/>
+        <result column="background_image" jdbcType="VARCHAR" property="backgroundImage"/>
+        <result column="store_image" jdbcType="VARCHAR" property="storeImage"/>
+        <result column="is_business" jdbcType="INTEGER" property="isBusiness"/>
+        <result column="store_remark" jdbcType="VARCHAR" property="storeRemark"/>
+        <result column="store_admin" jdbcType="VARCHAR" property="storeAdmin"/>
+        <result column="store_type" jdbcType="VARCHAR" property="storeType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        store_id, store_name, store_discount, is_discount, is_delete, store_turnover, store_location,
+        background_image, store_image, is_business, store_remark
+    </sql>
+    <select id="storeInfoList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_info_acy_t
+    </select>
+    <select id="storeLogin" resultMap="BaseResultMap" parameterType="StoreInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from store_info_acy_t
+        <where>
+            <if test="storeType!=null">
+                store_type=#{storeType},
+            </if>
+            <if test="storeAdmin!=null">
+                store_admin=#{storeAdmin},
+            </if>
+        </where>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from store_info_acy_t
+        where store_id = #{storeId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+      delete from store_info_acy_t
+      where store_id = #{storeId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="StoreInfo">
+        insert into store_info_acy_t (store_id, store_name, store_discount,
+        is_discount, is_delete, store_turnover,
+        store_location, background_image, store_image,
+        is_business, store_remark)
+        values (#{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, #{storeDiscount,jdbcType=DECIMAL},
+        #{isDiscount,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{storeTurnover,jdbcType=DECIMAL},
+        #{storeLocation,jdbcType=VARCHAR}, #{backgroundImage,jdbcType=VARCHAR}, #{storeImage,jdbcType=VARCHAR},
+        #{isBusiness,jdbcType=INTEGER}, #{storeRemark,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="StoreInfo" useGeneratedKeys="true" keyProperty="storeId">
+        insert into store_info_acy_t
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="storeName != null">
+                store_name,
+            </if>
+            <if test="storeDiscount != null">
+                store_discount,
+            </if>
+            <if test="isDiscount != null">
+                is_discount,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="storeTurnover != null">
+                store_turnover,
+            </if>
+            <if test="storeLocation != null">
+                store_location,
+            </if>
+            <if test="backgroundImage != null">
+                background_image,
+            </if>
+            <if test="storeImage != null">
+                store_image,
+            </if>
+            <if test="isBusiness != null">
+                is_business,
+            </if>
+            <if test="storeRemark != null">
+                store_remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="storeName != null">
+                #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeDiscount != null">
+                #{storeDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="isDiscount != null">
+                #{isDiscount,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="storeTurnover != null">
+                #{storeTurnover,jdbcType=DECIMAL},
+            </if>
+            <if test="storeLocation != null">
+                #{storeLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="backgroundImage != null">
+                #{backgroundImage,jdbcType=VARCHAR},
+            </if>
+            <if test="storeImage != null">
+                #{storeImage,jdbcType=VARCHAR},
+            </if>
+            <if test="isBusiness != null">
+                #{isBusiness,jdbcType=INTEGER},
+            </if>
+            <if test="storeRemark != null">
+                #{storeRemark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="StoreInfo">
+        update store_info_acy_t
+        <set>
+            <if test="storeName != null">
+                store_name = #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeDiscount != null">
+                store_discount = #{storeDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="isDiscount != null">
+                is_discount = #{isDiscount,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="storeTurnover != null">
+                store_turnover = #{storeTurnover,jdbcType=DECIMAL},
+            </if>
+            <if test="storeLocation != null">
+                store_location = #{storeLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="backgroundImage != null">
+                background_image = #{backgroundImage,jdbcType=VARCHAR},
+            </if>
+            <if test="storeImage != null">
+                store_image = #{storeImage,jdbcType=VARCHAR},
+            </if>
+            <if test="isBusiness != null">
+                is_business = #{isBusiness,jdbcType=INTEGER},
+            </if>
+            <if test="storeRemark != null">
+                store_remark = #{storeRemark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where store_id = #{storeId,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="StoreInfo">
+        update store_info_acy_t
+        set
+        store_name = #{storeName,jdbcType=VARCHAR},
+        store_discount = #{storeDiscount,jdbcType=DECIMAL},
+        is_discount = #{isDiscount,jdbcType=INTEGER},
+        is_delete = #{isDelete,jdbcType=INTEGER},
+        store_turnover = #{storeTurnover,jdbcType=DECIMAL},
+        store_location = #{storeLocation,jdbcType=VARCHAR},
+        background_image = #{backgroundImage,jdbcType=VARCHAR},
+        store_image = #{storeImage,jdbcType=VARCHAR},
+        is_business = #{isBusiness,jdbcType=INTEGER},
+        store_remark = #{storeRemark,jdbcType=VARCHAR}
+        where store_id = #{storeId,jdbcType=INTEGER}
+    </update>
+
+</mapper>

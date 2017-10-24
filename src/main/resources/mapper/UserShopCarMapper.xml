@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.UserShopCarMapper">
+  <resultMap id="BaseResultMap" type="com.sunwuo.electronic_mall.entity.UserShopCar">
+    <id column="shop_car_id" jdbcType="INTEGER" property="shopCarId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    shop_car_id, user_id, create_time
+  </sql>
+  <select id="selectByUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_shop_car_acy_t
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.sunwuo.electronic_mall.entity.UserShopCar" useGeneratedKeys="true" keyProperty="shopCarId" keyColumn="shop_car_id">
+    insert into user_shop_car_acy_t ( user_id,
+      create_time)
+    values ( #{userId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+</mapper>

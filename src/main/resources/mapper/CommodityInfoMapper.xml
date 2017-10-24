@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.CommodityInfoMapper">
+  <resultMap id="BaseResultMap" type="CommodityInfo">
+    <id column="commodity_id" jdbcType="INTEGER" property="commodityId" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
+    <result column="commodity_price" jdbcType="VARCHAR" property="commodityPrice" />
+    <result column="category_two_id" jdbcType="INTEGER" property="categoryTwoId" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="know_more" jdbcType="VARCHAR" property="knowMore" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="is_sales" jdbcType="INTEGER" property="isSales" />
+    <result column="commodity_remark" jdbcType="VARCHAR" property="commodityRemark" />
+    <result column="commodity_discount" jdbcType="DECIMAL" property="commodityDiscount" />
+    <result column="commodity_values" jdbcType="VARCHAR" property="commodityValues" />
+    <result column="is_discount" jdbcType="INTEGER" property="isDiscount" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+    <result column="sort_number" jdbcType="INTEGER" property="sortNumber"/>
+    <result column="commodity_type" jdbcType="INTEGER" property="commodityType"/>
+    <result column="is_activity" jdbcType="INTEGER" property="isActivity"/>
+    <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    commodity_id, commodity_name, commodity_price, category_two_id, image_path, know_more,
+    is_delete, commodity_remark, is_sales, commodity_discount, commodity_values, is_discount,
+    store_id,sort_number, create_time, commodity_type, is_activity
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from commodity_info_acy_t
+    where commodity_id = #{commodityId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from commodity_info_acy_t
+    where commodity_id = #{commodityId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="CommodityInfo">
+    insert into commodity_info_acy_t (commodity_id, commodity_name, commodity_price, 
+      category_two_id, image_path, know_more,
+      is_delete, commodity_remark, commodity_discount, 
+      commodity_values, is_discount, store_id, is_sales,
+      sort_number, create_time, commodity_type)
+    values (#{commodityId,jdbcType=INTEGER}, #{commodityName,jdbcType=VARCHAR}, #{commodityPrice,jdbcType=VARCHAR}, 
+      #{categoryTwoId,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR}, #{knowMore,jdbcType=VARCHAR},
+      #{isDelete,jdbcType=INTEGER}, #{commodityRemark,jdbcType=VARCHAR}, #{commodityDiscount,jdbcType=DECIMAL}, 
+      #{commodityValues,jdbcType=VARCHAR}, #{isDiscount,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER},  #{isSales,jdbcType=INTEGER},
+      #{sortNumber,jdbcType=INTEGER},#{createTime,jdbcType=VARCHAR}, #{commodityType,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="CommodityInfo" useGeneratedKeys="true" keyColumn="commodity_id" keyProperty="commodityId">
+    insert into commodity_info_acy_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commodityName != null">
+        commodity_name,
+      </if>
+      <if test="commodityPrice != null">
+        commodity_price,
+      </if>
+      <if test="categoryTwoId != null">
+        category_two_id,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="knowMore != null">
+        know_more,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="commodityRemark != null">
+        commodity_remark,
+      </if>
+      <if test="commodityDiscount != null">
+        commodity_discount,
+      </if>
+      <if test="commodityValues != null">
+        commodity_values,
+      </if>
+      <if test="isDiscount != null">
+        is_discount,
+      </if>
+      <if test="isSales != null">
+        is_sales,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="sortNumber != null">
+        sort_number,
+      </if>
+      <if test="commodityType != null">
+        commodity_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commodityName != null">
+        #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityPrice != null">
+        #{commodityPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryTwoId != null">
+        #{categoryTwoId,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="knowMore != null">
+        #{knowMore,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="commodityRemark != null">
+        #{commodityRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityDiscount != null">
+        #{commodityDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityValues != null">
+        #{commodityValues,jdbcType=VARCHAR},
+      </if>
+      <if test="isDiscount != null">
+        #{isDiscount,jdbcType=INTEGER},
+      </if>
+      <if test="isSales != null">
+        #{isSales,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNumber != null">
+        #{sortNumber,jdbcType=INTEGER},
+      </if>
+      <if test="commodityType != null">
+        #{commodityType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="CommodityInfo">
+    update commodity_info_acy_t
+    <set>
+      <if test="commodityName != null">
+        commodity_name = #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityPrice != null">
+        commodity_price = #{commodityPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryTwoId != null">
+        category_two_id = #{categoryTwoId,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="knowMore != null">
+        know_more = #{knowMore,jdbcType=VARCHAR},
+      </if>
+      <if test="isSales != null">
+        is_sales = #{isSales,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="commodityRemark != null">
+        commodity_remark = #{commodityRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityDiscount != null">
+        commodity_discount = #{commodityDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityValues != null">
+        commodity_values = #{commodityValues,jdbcType=VARCHAR},
+      </if>
+      <if test="isDiscount != null">
+        is_discount = #{isDiscount,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNumber != null">
+        sort_number = #{sortNumber,jdbcType=INTEGER},
+      </if>
+      <if test="commodityType != null">
+        commodity_type = #{commodityType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where commodity_id = #{commodityId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="CommodityInfo">
+    update commodity_info_acy_t
+    set commodity_name = #{commodityName,jdbcType=VARCHAR},
+      commodity_price = #{commodityPrice,jdbcType=VARCHAR},
+      category_two_id = #{categoryTwoId,jdbcType=INTEGER},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      know_more = #{knowMore,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      commodity_remark = #{commodityRemark,jdbcType=VARCHAR},
+      commodity_discount = #{commodityDiscount,jdbcType=DECIMAL},
+      commodity_values = #{commodityValues,jdbcType=VARCHAR},
+      is_discount = #{isDiscount,jdbcType=INTEGER},
+      is_sales = #{isSales,jdbcType=INTEGER},
+      store_id = #{storeId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      commodity_type = #{commodityType,jdbcType=INTEGER},
+      sort_number = #{sortNumber,jdbcType=INTEGER}
+    where commodity_id = #{commodityId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectCommodityCount" parameterType="Map" resultType="Integer">
+    select
+    count(commodity_id)
+    from commodity_info_acy_t
+    where is_delete = 0
+    <if test="storeId != null">
+      AND store_id = #{storeId}
+    </if>
+    <if test="commodityType != null">
+      AND commodity_type = #{commodityType,jdbcType=INTEGER}
+    </if>
+    <if test="isSales != null">
+      AND is_sales = #{isSales}
+    </if>
+    <if test="categoryTwoId != null">
+      AND category_two_id = #{categoryTwoId}
+    </if>
+    <if test="searchString != null">
+      AND commodity_name like concat('%', #{searchString},'%')
+    </if>
+  </select>
+
+  <select id="selectCommodities" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from commodity_info_acy_t
+    where is_delete = 0
+    <if test="storeId != null">
+      AND store_id = #{storeId}
+    </if>
+    <if test="commodityType != null">
+      AND commodity_type = #{commodityType,jdbcType=INTEGER}
+    </if>
+    <if test="categoryTwoId != null">
+      AND category_two_id = #{categoryTwoId}
+    </if>
+    <if test="isSales != null">
+      AND is_sales = #{isSales}
+    </if>
+    <if test="searchString != null">
+      AND commodity_name like concat('%',#{searchString},'%')
+    </if>
+    ORDER BY sort_number
+    <if test="pageModel != null">
+      limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
+    </if>
+  </select>
+
+  <update id="deleteByIds">
+    update commodity_info_acy_t set is_delete = 1 where commodity_id IN
+    <foreach item="commodityId" index="index" collection="commodityIds" open="(" separator="," close=")">
+      #{commodityId}
+    </foreach>
+  </update>
+
+  <update id="discounts">
+    update commodity_info_acy_t set is_discount = #{isDiscount} where commodity_id IN
+    <foreach item="commodityId" index="index" collection="commodityIds" open="(" separator="," close=")">
+      #{commodityId}
+    </foreach>
+  </update>
+
+  <update id="sales">
+    update commodity_info_acy_t set is_sales = #{isSales} where commodity_id IN
+    <foreach item="commodityId" index="index" collection="commodityIds" open="(" separator="," close=")">
+      #{commodityId}
+    </foreach>
+  </update>
+
+  <update id="updateSortNumber">
+    update commodity_info_acy_t set sort_number = #{sortNumber} where commodity_id = #{commodityId}
+  </update>
+
+  <update id="updateIsActivity">
+    update commodity_info_acy_t set is_activity = #{isActivity} where commodity_id = #{commodityId}
+  </update>
+
+  <update id="updateIsActivities">
+    update commodity_info_acy_t set is_activity = #{isActivity} where commodity_id in (
+    SELECT commodity_id from activity_info_acy_t WHERE activity_id IN
+    <foreach item="activityId" index="index" collection="activityIds" open="(" separator="," close=")">
+      #{activityId}
+    </foreach>
+    )
+  </update>
+
+  <update id="updateSortNumbers">
+    update commodity_info_acy_t set sort_number = sort_number + 1 where sort_number &lt; #{sortNumber}
+  </update>
+
+</mapper>

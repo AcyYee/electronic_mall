@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.LogisticsModelMapper">
+  <resultMap id="BaseResultMap" type="LogisticsModel">
+    <id column="model_id" jdbcType="INTEGER" property="modelId" />
+    <result column="delivery_area" jdbcType="VARCHAR" property="deliveryArea" />
+    <result column="free_weight" jdbcType="DECIMAL" property="freeWeight" />
+    <result column="beyond_weight" jdbcType="DECIMAL" property="beyondWeight" />
+    <result column="min_price" jdbcType="DECIMAL" property="minPrice" />
+    <result column="beyond_price" jdbcType="DECIMAL" property="beyondPrice" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="sort_number" jdbcType="INTEGER" property="sortNumber" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    model_id, delivery_area, free_weight, beyond_weight, min_price, beyond_price, is_delete, 
+    create_time, sort_number, company_id
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    lm.model_id, lm.delivery_area, lm.free_weight, lm.beyond_weight, lm.min_price, lm.beyond_price, lm.is_delete,
+    lm.create_time, lm.sort_number, lm.company_id, lc.company_name
+    from logistics_model_acy_t lm LEFT JOIN logistics_company_acy_t lc on lm.company_id = lc.company_id
+    where lm.model_id = #{modelId,jdbcType=INTEGER}
+  </select>
+
+  <select id="findModelCount" parameterType="Map" resultType="Integer">
+    select
+    count(lm.model_id)
+    from logistics_model_acy_t lm LEFT JOIN logistics_company_acy_t lc on lm.company_id = lc.company_id
+    where lm.is_delete = 0
+    <if test="companyId">
+      and lm.company_id = #{companyId,jdbcType=INTEGER}
+    </if>
+    <if test="storeId != null">
+      and lc.store_id = #{storeId}
+    </if>
+    <if test="storeType != null">
+      and lc.store_type = #{storeType}
+    </if>
+  </select>
+
+  <select id="findModels" parameterType="Map" resultMap="BaseResultMap">
+    select
+    lm.model_id, lm.delivery_area, lm.free_weight, lm.beyond_weight, lm.min_price, lm.beyond_price, lm.is_delete,
+    lm.create_time, lm.sort_number, lm.company_id, lc.company_name
+    from logistics_model_acy_t lm LEFT JOIN logistics_company_acy_t lc on lm.company_id = lc.company_id
+    where lm.is_delete = 0
+    <if test="companyId">
+      and lm.company_id = #{companyId,jdbcType=INTEGER}
+    </if>
+    <if test="storeId != null">
+      and lc.store_id = #{storeId}
+    </if>
+    <if test="storeType != null">
+      and lc.store_type = #{storeType}
+    </if>
+    ORDER BY lc.sort_number
+    <if test="pageModel != null">
+      limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from logistics_model_acy_t
+    where model_id = #{modelId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="LogisticsModel" useGeneratedKeys="true" keyColumn="model_id" keyProperty="modelId">
+    insert into logistics_model_acy_t (model_id, delivery_area, free_weight, 
+      beyond_weight, min_price, beyond_price, company_id,
+      is_delete, create_time)
+    values (#{modelId,jdbcType=INTEGER}, #{deliveryArea,jdbcType=VARCHAR}, #{freeWeight,jdbcType=DECIMAL}, 
+      #{beyondWeight,jdbcType=DECIMAL}, #{minPrice,jdbcType=DECIMAL}, #{beyondPrice,jdbcType=DECIMAL}, #{companyId,jdbcType=INTEGER},
+      #{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="LogisticsModel" useGeneratedKeys="true" keyColumn="model_id" keyProperty="modelId">
+    insert into logistics_model_acy_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelId != null">
+        model_id,
+      </if>
+      <if test="deliveryArea != null">
+        delivery_area,
+      </if>
+      <if test="freeWeight != null">
+        free_weight,
+      </if>
+      <if test="beyondWeight != null">
+        beyond_weight,
+      </if>
+      <if test="minPrice != null">
+        min_price,
+      </if>
+      <if test="beyondPrice != null">
+        beyond_price,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelId != null">
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryArea != null">
+        #{deliveryArea,jdbcType=VARCHAR},
+      </if>
+      <if test="freeWeight != null">
+        #{freeWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="beyondWeight != null">
+        #{beyondWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="minPrice != null">
+        #{minPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="beyondPrice != null">
+        #{beyondPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="LogisticsModel">
+    update logistics_model_acy_t
+    <set>
+      <if test="deliveryArea != null">
+        delivery_area = #{deliveryArea,jdbcType=VARCHAR},
+      </if>
+      <if test="freeWeight != null">
+        free_weight = #{freeWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="beyondWeight != null">
+        beyond_weight = #{beyondWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="minPrice != null">
+        min_price = #{minPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="beyondPrice != null">
+        beyond_price = #{beyondPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where model_id = #{modelId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="LogisticsModel">
+    update logistics_model_acy_t
+    set delivery_area = #{deliveryArea,jdbcType=VARCHAR},
+      free_weight = #{freeWeight,jdbcType=DECIMAL},
+      beyond_weight = #{beyondWeight,jdbcType=DECIMAL},
+      min_price = #{minPrice,jdbcType=DECIMAL},
+      beyond_price = #{beyondPrice,jdbcType=DECIMAL},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where model_id = #{modelId,jdbcType=INTEGER}
+  </update>
+
+  <update id="deleteByIds">
+    update logistics_model_acy_t set is_delete = 1 where model_id IN
+    <foreach item="modelId" index="index" collection="modelIds" open="(" separator="," close=")">
+      #{modelId}
+    </foreach>
+  </update>
+
+  <update id="updateSortNumber">
+    update logistics_model_acy_t set sort_number = #{sortNumber} where model_id = #{modelId}
+  </update>
+
+  <update id="updateSortNumbers">
+    update logistics_model_acy_t set sort_number = sort_number + 1 where sort_number &lt; #{sortNumber}
+  </update>
+
+</mapper>

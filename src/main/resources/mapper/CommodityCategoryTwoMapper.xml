@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.CommodityCategoryTwoMapper">
+
+    <resultMap id="baseMap" type="CommodityCategoryTwo">
+        <id column="category_two_id" property="categoryTwoId" jdbcType="INTEGER"/>
+        <result column="category_one_id" property="categoryOneId" jdbcType="INTEGER"/>
+        <result column="category_two_name" property="categoryTwoName" jdbcType="VARCHAR"/>
+        <result column="category_two_type" property="categoryTwoType" jdbcType="INTEGER"/>
+        <result column="sort_number" jdbcType="INTEGER" property="sortNumber"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="sub_name" jdbcType="VARCHAR" property="subName"/>
+        <result column="image_path" property="imagePath" jdbcType="VARCHAR"/>
+        <result column="icon_path" property="iconPath" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="baseColumns">category_two_id,category_two_name,image_path,icon_path,category_one_id,sort_number,create_time,sub_name,category_two_type</sql>
+
+    <select id="findCategoryTwos" parameterType="Map" resultMap="baseMap">
+        select
+        <include refid="baseColumns"/>
+        from commodity_category_two_acy_t
+        where is_delete = 0
+        <if test="searchString != null">
+            AND (category_two_name like concat('%',#{searchString},'%') or sub_name like concat('%',#{searchString},'%'))
+        </if>
+        <if test="categoryOneId != null">
+            AND category_one_id = #{categoryOneId}
+        </if>
+        <if test="categoryTwoType != null">
+            AND category_two_type = #{categoryTwoType}
+        </if>
+        ORDER BY sort_number
+        <if test="pageModel != null">
+            limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
+        </if>
+    </select>
+
+    <select id="findCategoryTwoCount" parameterType="Map" resultType="Integer">
+        select
+        count(category_two_id)
+        from commodity_category_two_acy_t
+        where is_delete = 0
+        <if test="searchString != null">
+            AND (category_two_name like concat('%',#{searchString},'%') or sub_name like concat('%',#{searchString},'%'))
+        </if>
+        <if test="categoryOneId != null">
+            AND category_one_id = #{categoryOneId}
+        </if>
+        <if test="categoryTwoType != null">
+            AND category_two_type = #{categoryTwoType}
+        </if>
+    </select>
+
+    <select id="findById" resultMap="baseMap">
+        select
+        <include refid="baseColumns"/>
+        from commodity_category_two_acy_t where category_two_id = #{categoryTwoId}
+    </select>
+
+    <insert id="insertCategoryTwo" parameterType="CommodityCategoryTwo" useGeneratedKeys="true" keyProperty="categoryTwoId" keyColumn="category_two_id">
+        insert into commodity_category_two_acy_t
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryTwoName != null">
+                category_two_name,
+            </if>
+            <if test="imagePath != null">
+                image_path,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="subName != null">
+                sub_name,
+            </if>
+            <if test="iconPath != null">
+                icon_path,
+            </if>
+            <if test="categoryOneId != null">
+                category_one_id,
+            </if>
+            <if test="categoryTwoType != null">
+                category_two_type
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryTwoName != null">
+                #{categoryTwoName,jdbcType=VARCHAR},
+            </if>
+            <if test="imagePath != null">
+                #{imagePath,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="subName != null">
+                #{subName,jdbcType=VARCHAR},
+            </if>
+            <if test="iconPath != null">
+                #{iconPath,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryOneId != null">
+                #{categoryOneId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryTwoType != null">
+                #{categoryTwoType,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="CommodityCategoryTwo">
+        UPDATE commodity_category_two_acy_t
+        <set>
+            <if test="categoryTwoName != null">
+                category_two_name = #{categoryTwoName,jdbcType=VARCHAR},
+            </if>
+            <if test="imagePath != null">
+                image_path = #{imagePath,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="subName != null">
+                sub_name = #{subName,jdbcType=VARCHAR},
+            </if>
+            <if test="sortNumber != null">
+                sort_number = #{sortNumber,jdbcType=INTEGER},
+            </if>
+            <if test="iconPath != null">
+                icon_path = #{iconPath,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryOneId != null">
+                category_one_id = #{categoryOneId,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE category_two_id = #{categoryTwoId,jdbcType=INTEGER}
+    </update>
+    
+    <update id="deleteByIds">
+        update commodity_category_two_acy_t set is_delete = 1 where category_two_id IN
+        <foreach item="categoryTwoId" index="index" collection="categoryTwoIds" open="(" separator="," close=")">
+            #{categoryTwoId}
+        </foreach>
+    </update>
+
+    <update id="updateSortNumber">
+        update commodity_category_two_acy_t set sort_number = #{sortNumber} where category_two_id = #{categoryTwoId}
+    </update>
+
+    <update id="updateSortNumbers">
+        update commodity_category_two_acy_t set sort_number = sort_number + 1 where sort_number &lt; #{sortNumber}
+    </update>
+
+</mapper>

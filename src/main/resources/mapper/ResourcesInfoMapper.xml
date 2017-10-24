@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.ResourcesInfoMapper">
+
+  <resultMap id="BaseResultMap" type="ResourcesInfo">
+    <id column="resources_id" jdbcType="INTEGER" property="resourcesId" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="resources_path" jdbcType="VARCHAR" property="resourcesPath" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="sort_number" jdbcType="INTEGER" property="sortNumber" />
+    <result column="resources_title" jdbcType="VARCHAR" property="resourcesTitle" />
+    <result column="resources_remark" jdbcType="VARCHAR" property="resourcesRemark" />
+    <result column="resources_type" jdbcType="INTEGER" property="resourcesType" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    resources_id, category_id, image_path, resources_path, create_time, sort_number, resources_title,
+    resources_remark, resources_type
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from resources_info_acy_t
+    where resources_id = #{resourcesId,jdbcType=INTEGER}
+  </select>
+
+  <select id="findResourceses" parameterType="Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from resources_info_acy_t
+    where is_delete = 0 and category_id = #{categoryId,jdbcType=INTEGER}
+    ORDER BY sort_number
+    <if test="pageModel != null">
+      limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
+    </if>
+  </select>
+
+  <select id="findResourcesCount" parameterType="Map" resultType="Integer">
+    select
+    count(resources_id)
+    from resources_info_acy_t
+    where is_delete = 0 and category_id = #{categoryId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from resources_info_acy_t
+    where resources_id = #{resourcesId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="ResourcesInfo" useGeneratedKeys="true" keyColumn="resources_id" keyProperty="resourcesId">
+    insert into resources_info_acy_t (category_id, image_path, resources_path,
+      create_time, sort_number, resources_title, 
+      resources_remark, resources_type)
+    values (#{categoryId,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR}, #{resourcesPath,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{sortNumber,jdbcType=INTEGER}, #{resourcesTitle,jdbcType=VARCHAR}, 
+      #{resourcesRemark,jdbcType=VARCHAR}, #{resourcesType,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="ResourcesInfo" useGeneratedKeys="true" keyColumn="resources_id" keyProperty="resourcesId">
+    insert into resources_info_acy_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="resourcesPath != null">
+        resources_path,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="sortNumber != null">
+        sort_number,
+      </if>
+      <if test="resourcesTitle != null">
+        resources_title,
+      </if>
+      <if test="resourcesRemark != null">
+        resources_remark,
+      </if>
+      <if test="resourcesType != null">
+        resources_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcesPath != null">
+        #{resourcesPath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortNumber != null">
+        #{sortNumber,jdbcType=INTEGER},
+      </if>
+      <if test="resourcesTitle != null">
+        #{resourcesTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcesRemark != null">
+        #{resourcesRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcesType != null">
+        #{resourcesType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="ResourcesInfo">
+    update resources_info_acy_t
+    <set>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcesPath != null">
+        resources_path = #{resourcesPath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortNumber != null">
+        sort_number = #{sortNumber,jdbcType=INTEGER},
+      </if>
+      <if test="resourcesTitle != null">
+        resources_title = #{resourcesTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcesRemark != null">
+        resources_remark = #{resourcesRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcesType != null">
+        resources_type = #{resourcesType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where resources_id = #{resourcesId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="ResourcesInfo">
+    update resources_info_acy_t
+    set image_path = #{imagePath,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      resources_path = #{resourcesPath,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      sort_number = #{sortNumber,jdbcType=INTEGER},
+      resources_title = #{resourcesTitle,jdbcType=VARCHAR},
+      resources_remark = #{resourcesRemark,jdbcType=VARCHAR},
+      resources_type = #{resourcesType,jdbcType=INTEGER}
+    where resources_id = #{resourcesId,jdbcType=INTEGER}
+  </update>
+
+  <update id="deleteByIds">
+    update resources_info_acy_t set is_delete = 1 where resources_id IN
+    <foreach item="resourcesId" index="index" collection="resourcesIds" open="(" separator="," close=")">
+      #{resourcesId}
+    </foreach>
+  </update>
+
+  <update id="updateSortNumber">
+    update resources_info_acy_t set sort_number = #{sortNumber} where resources_id = #{resourcesId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateSortNumbers">
+    update resources_info_acy_t set sort_number = sort_number + 1 where sort_number &lt; #{sortNumber}
+  </update>
+
+</mapper>

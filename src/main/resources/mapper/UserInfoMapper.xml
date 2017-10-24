@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="UserInfo">
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="wx_openid" property="wxOpenid" jdbcType="VARCHAR"/>
+        <result column="is_design" property="isDesign" jdbcType="INTEGER"/>
+        <result column="is_shop" property="isShop" jdbcType="INTEGER"/>
+        <result column="store_id" jdbcType="INTEGER" property="storeId"/>
+        <result column="is_regist" property="isRegist" jdbcType="INTEGER"/>
+        <result column="flag_design" property="flagDesign" jdbcType="TINYINT"/>
+        <result column="flag_shop" property="flagShop" jdbcType="TINYINT"/>
+    </resultMap>
+    <select id="findByOpenid" resultMap="BaseResultMap" parameterType="string">
+    select 
+    user_id, create_time, wx_openid, is_design, is_shop, is_regist, flag_design, flag_shop
+    from t_user_info
+    where wx_openid = #{wxopenid}
+  </select>
+
+    <select id="findByShopId" resultMap="BaseResultMap" parameterType="Integer">
+    select
+    user_id, create_time, wx_openid, is_design, is_shop, is_regist, flag_design, flag_shop
+    from t_user_info
+    where is_shop = #{id}
+  </select>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="int">
+    select 
+    user_id, create_time, wx_openid, is_design, is_shop, is_regist, flag_design, flag_shop
+    from t_user_info
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+    <select id="findByDesignId" resultMap="BaseResultMap" parameterType="int">
+    select 
+    user_id, create_time, wx_openid, is_design, is_shop, is_regist, flag_design, flag_shop
+    from t_user_info
+    where is_design= #{id,jdbcType=INTEGER}
+  </select>
+    <insert id="insertSelective" parameterType="UserInfo" keyProperty="id" useGeneratedKeys="true">
+        insert into t_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="wxOpenid != null">
+                wx_openid,
+            </if>
+            <if test="isDesign != null">
+                is_design,
+            </if>
+            <if test="isShop != null">
+                is_shop,
+            </if>
+            <if test="isRegist != null">
+                is_regist,
+            </if>
+            <if test="flagDesign != null">
+                flag_design,
+            </if>
+            <if test="flagShop != null">
+                flag_shop,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="wxOpenid != null">
+                #{wxOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="isDesign != null">
+                #{isDesign,jdbcType=INTEGER},
+            </if>
+            <if test="isShop != null">
+                #{isShop,jdbcType=INTEGER},
+            </if>
+            <if test="isRegist != null">
+                #{isRegist,jdbcType=INTEGER},
+            </if>
+            <if test="flagDesign != null">
+                #{flagDesign,jdbcType=TINYINT},
+            </if>
+            <if test="flagShop != null">
+                #{flagShop,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="UserInfo">
+        update t_user_info
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="wxOpenid != null">
+                wx_openid = #{wxOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="isDesign != null">
+                is_design = #{isDesign,jdbcType=INTEGER},
+            </if>
+            <if test="isShop != null">
+                is_shop = #{isShop,jdbcType=INTEGER},
+            </if>
+            <if test="isRegist != null">
+                is_regist = #{isRegist,jdbcType=INTEGER},
+            </if>
+            <if test="flagDesign != null">
+                flag_design = #{flagDesign,jdbcType=TINYINT},
+            </if>
+            <if test="flagShop != null">
+                flag_shop = #{flagShop,jdbcType=TINYINT},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+</mapper>

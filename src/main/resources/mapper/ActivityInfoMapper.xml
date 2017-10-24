@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.ActivityInfoMapper">
+
+  <resultMap id="BaseResultMap" type="ActivityInfo">
+    <id column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
+    <result column="sort_number" jdbcType="INTEGER" property="sortNumber" />
+    <result column="is_activity" jdbcType="INTEGER" property="isActivity" />
+    <result column="commodity_id" jdbcType="INTEGER" property="commodityId" />
+    <result column="activity_name" jdbcType="VARCHAR" property="activityName" />
+    <result column="activity_content" jdbcType="VARCHAR" property="activityContent" />
+  </resultMap>
+
+  <sql id="Base_Column_List">activity_id, image_path, create_time, is_delete, sort_number, is_activity, commodity_id, activity_name, activity_content</sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from activity_info_acy_t
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </select>
+
+  <select id="findActivityCount" resultType="Integer">
+    select
+    count(activity_id)
+    from activity_info_acy_t
+    WHERE is_delete = 0
+  </select>
+
+  <select id="findActivities" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from activity_info_acy_t
+    WHERE is_delete = 0
+    ORDER by sort_number
+    <if test="pageModel">
+      limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from activity_info_acy_t
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="ActivityInfo" useGeneratedKeys="true" keyProperty="activityId" keyColumn="activity_id">
+    insert into activity_info_acy_t (activity_id, image_path, create_time, 
+      is_delete, sort_number, is_activity, 
+      commodity_id, activity_name, activity_content
+      )
+    values (#{activityId,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=VARCHAR}, #{sortNumber,jdbcType=INTEGER}, #{isActivity,jdbcType=INTEGER}, 
+      #{commodityId,jdbcType=INTEGER}, #{activityName,jdbcType=VARCHAR}, #{activityContent,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="ActivityInfo" useGeneratedKeys="true" keyProperty="activityId" keyColumn="activity_id">
+    insert into activity_info_acy_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="sortNumber != null">
+        sort_number,
+      </if>
+      <if test="isActivity != null">
+        is_activity,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="activityName != null">
+        activity_name,
+      </if>
+      <if test="activityContent != null">
+        activity_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNumber != null">
+        #{sortNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isActivity != null">
+        #{isActivity,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="activityName != null">
+        #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="activityContent != null">
+        #{activityContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="ActivityInfo">
+    update activity_info_acy_t
+    <set>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNumber != null">
+        sort_number = #{sortNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isActivity != null">
+        is_activity = #{isActivity,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="activityName != null">
+        activity_name = #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="activityContent != null">
+        activity_content = #{activityContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="ActivityInfo">
+    update activity_info_acy_t
+    set image_path = #{imagePath,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=VARCHAR},
+      sort_number = #{sortNumber,jdbcType=INTEGER},
+      is_activity = #{isActivity,jdbcType=INTEGER},
+      commodity_id = #{commodityId,jdbcType=INTEGER},
+      activity_name = #{activityName,jdbcType=VARCHAR},
+      activity_content = #{activityContent,jdbcType=VARCHAR}
+    where activity_id = #{activityId,jdbcType=INTEGER}
+  </update>
+
+  <update id="deleteByIds">
+    update activity_info_acy_t set is_delete = 1 where activity_id IN
+    <foreach item="activityId" index="index" collection="activityIds" open="(" separator="," close=")">
+      #{activityId}
+    </foreach>
+  </update>
+
+  <update id="updateSortNumber">
+    update activity_info_acy_t set sort_number = #{sortNumber} where activity_id = #{activityId}
+  </update>
+
+  <update id="updateIsActivity">
+    update activity_info_acy_t set is_activity = #{isActivity} where activity_id = #{activityId}
+  </update>
+
+  <update id="updateSortNumbers">
+    update activity_info_acy_t set sort_number = sort_number + 1 where sort_number &lt; #{sortNumber}
+  </update>
+
+</mapper>

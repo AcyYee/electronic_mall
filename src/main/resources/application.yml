@@ -1,0 +1,60 @@
+spring:
+  http:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://www.tongzhuhe.com/sunwou_eleMall_10?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: sunwou9527
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat
+  redis:
+    database: 0
+    host: 192.168.0.58
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+    # 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-wait: -1
+    # 连接池中的最大空闲连接
+      max-idle: 8
+    # 连接池中的最小空闲连接
+      min-idle: 0
+    # 连接超时时间（毫秒）
+    timeout: 0
+#  data:
+#    mongodb:
+#      #authentication-database:  # Authentication database name.
+#      database: beauty # Database name.
+#      #field-naming-strategy: # Fully qualified name of the FieldNamingStrategy to use.
+#      grid-fs-database: # GridFS database name.
+#      host: 112.74.110.66 # Mongo server host.
+#      password: tzhtzh # Login password of the mongo server.
+#      port: 27017 # Mongo server port.
+#      repositories:
+#        enabled: true # Enable Mongo repositories.
+#      #uri: mongodb://localhost/test # Mongo database URI. When set, host and port are ignored.
+#      username: root # Login user of the mongo server
+
+logging:
+  level: debug
+  file: log.log
+
+mybatis:
+  typeAliasesPackage: com.sunwuo.electronic_mall.entity
+  mapperLocations: classpath:mapper/*.xml

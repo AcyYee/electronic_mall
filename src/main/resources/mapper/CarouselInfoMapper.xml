@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.CarouselInfoMapper">
+
+  <resultMap id="BaseResultMap" type="CarouselInfo">
+    <id column="carousel_id" jdbcType="INTEGER" property="carouselId" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="carousel_path" jdbcType="VARCHAR" property="carouselPath" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+    <result column="commodity_id" jdbcType="INTEGER" property="commodityId" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
+    <result column="sort_number" jdbcType="INTEGER" property="sortNumber" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="carousel_type" jdbcType="INTEGER" property="carouselType" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    carousel_id, image_path, store_id, commodity_id, is_delete, create_time, sort_number,carousel_type, carousel_path
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    ci1.carousel_id, ci1.image_path, ci1.store_id, ci1.commodity_id, ci1.is_delete, ci1.create_time, ci1.sort_number,ci1.carousel_type, ci1.carousel_path, ci2.commodity_name
+    FROM carousel_info_acy_t ci1
+    LEFT JOIN commodity_info_acy_t ci2 on ci1.commodity_id = ci2.commodity_id
+    where carousel_id = #{carouselId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectCarouselInfoCount" resultType="Integer" parameterType="Map">
+    SELECT
+    count(carousel_id)
+    FROM carousel_info_acy_t
+    WHERE is_delete = 0
+    <if test="carouselType != null">
+      and carousel_type = #{carouselType}
+    </if>
+    <if test="storeId != null">
+      AND store_id = #{storeId}
+    </if>
+    <if test="commodityId != null">
+      AND commodity_id = #{commodityId}
+    </if>
+  </select>
+
+  <select id="selectCarouselInfoes" resultMap="BaseResultMap" parameterType="Map">
+    SELECT
+    ci1.carousel_id, ci1.image_path, ci1.store_id, ci1.commodity_id, ci1.is_delete, ci1.create_time, ci1.sort_number,ci1.carousel_type, ci1.carousel_path, ci2.commodity_name
+    FROM carousel_info_acy_t ci1
+    LEFT JOIN commodity_info_acy_t ci2 on ci1.commodity_id = ci2.commodity_id
+    WHERE ci1.is_delete = 0
+    <if test="carouselType != null">
+      and ci1.carousel_type = #{carouselType}
+    </if>
+    <if test="storeId != null">
+      AND ci1.store_id = #{storeId}
+    </if>
+    <if test="commodityId != null">
+      AND ci1.commodity_id = #{commodityId}
+    </if>
+    ORDER BY ci1.sort_number
+    <if test="pageModel != null">
+      limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from carousel_info_acy_t
+    where carousel_id = #{carouselId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="CarouselInfo" useGeneratedKeys="true" keyColumn="carousel_id" keyProperty="carouselId">
+    insert into carousel_info_acy_t (carousel_id, image_path, store_id,
+      commodity_id, is_delete)
+    values (#{carouselId,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER},
+      #{commodityId,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="CarouselInfo" useGeneratedKeys="true" keyColumn="carousel_id" keyProperty="carouselId">
+    insert into carousel_info_acy_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="carouselPath != null">
+        carousel_path,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="carouselType != null">
+        carousel_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="carouselPath != null">
+        #{carouselPath,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="carouselType != null">
+        #{carouselType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="CarouselInfo">
+    update carousel_info_acy_t
+    <set>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="commodityId != null">
+        commodity_id = #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="carouselType != null">
+        carousel_type = #{carouselType},
+      </if>
+    </set>
+    where carousel_id = #{carouselId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="CarouselInfo">
+    update carousel_info_acy_t
+    set image_path = #{imagePath,jdbcType=VARCHAR},
+      store_id = #{storeId,jdbcType=INTEGER},
+      commodity_id = #{commodityId,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=INTEGER}
+    where carousel_id = #{carouselId,jdbcType=INTEGER}
+  </update>
+
+  <update id="deleteByIds">
+    update carousel_info_acy_t set is_delete = 1 where carousel_id IN
+    <foreach item="carouselId" index="index" collection="carouselIds" open="(" separator="," close=")">
+      #{carouselId}
+    </foreach>
+  </update>
+
+  <update id="updateSortNumber">
+    update carousel_info_acy_t set sort_number = #{sortNumber} where carousel_id = #{carouselId}
+  </update>
+
+  <update id="updateSortNumbers">
+    update carousel_info_acy_t set sort_number = sort_number + 1 where sort_number &lt; #{sortNumber}
+  </update>
+
+</mapper>
