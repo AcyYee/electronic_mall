@@ -8,6 +8,7 @@ import com.sunwuo.electronic_mall.service.OrderItemService;
 import com.sunwuo.electronic_mall.util.TimeUtil;
 import com.sunwuo.electronic_mall.vo.PageData;
 import com.sunwuo.electronic_mall.vo.PageModel;
+import com.sunwuo.electronic_mall.vo.SpecificationCountModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,15 +30,29 @@ public class OrderItemServiceImpl implements OrderItemService {
             return -1;
         }
         OrderItem temp = orderItemDao.findBySpecificationAndShopCar(orderItem.getSpecificationId(),orderItem.getShopCarId());
-        CommoditySpecification commoditySpecification = commoditySpecificationMapper.selectByPrimaryKey(orderItem.getSpecificationId());
+        SpecificationCountModel commoditySpecification = commoditySpecificationMapper.findCountByPrimaryKey(orderItem.getSpecificationId());
         if (temp == null){
             orderItem.setCreateTime(TimeUtil.getDateTime(1));
             orderItem.setItemType(1);
-            orderItem.setItemPrice(orderItem.getItemCount()*commoditySpecification.getSpecificationPrice());
+            if (commoditySpecification.getIsActivity() == 1){
+                orderItem.setItemPrice(orderItem.getItemCount()*commoditySpecification.getActivityPrice());
+            }else {
+                orderItem.setItemPrice(orderItem.getItemCount()*commoditySpecification.getSpecificationPrice());
+            }
+            if (commoditySpecification.getIsDiscount() == 1){
+                orderItem.setItemPrice(orderItem.getItemPrice()*commoditySpecification.getCommodityDiscount());
+            }
             return orderItemDao.insert(orderItem);
         }else {
             temp.setItemCount(orderItem.getItemCount()+temp.getItemCount());
-            temp.setItemPrice(temp.getItemPrice()+orderItem.getItemCount()*commoditySpecification.getSpecificationPrice());
+            if (commoditySpecification.getIsActivity() == 1){
+                temp.setItemPrice(temp.getItemCount()*commoditySpecification.getActivityPrice());
+            }else {
+                temp.setItemPrice(temp.getItemCount()*commoditySpecification.getSpecificationPrice());
+            }
+            if (commoditySpecification.getIsDiscount() == 1){
+                temp.setItemPrice(temp.getItemPrice()*commoditySpecification.getCommodityDiscount());
+            }
             orderItem = temp;
             return orderItemDao.updateByPrimaryKeySelective(orderItem);
         }
@@ -48,8 +63,15 @@ public class OrderItemServiceImpl implements OrderItemService {
         if (orderItem == null || orderItem.getItemId() == null || orderItem.getItemCount() == null ||orderItem.getItemCount()>0){
             return -1;
         }
-        CommoditySpecification commoditySpecification = commoditySpecificationMapper.selectByPrimaryKey(orderItem.getSpecificationId());
-        orderItem.setItemPrice(orderItem.getItemCount()*commoditySpecification.getSpecificationPrice());
+        SpecificationCountModel commoditySpecification = commoditySpecificationMapper.findCountByPrimaryKey(orderItem.getSpecificationId());
+        if (commoditySpecification.getIsActivity() == 1){
+            orderItem.setItemPrice(orderItem.getItemCount()*commoditySpecification.getActivityPrice());
+        }else {
+            orderItem.setItemPrice(orderItem.getItemCount()*commoditySpecification.getSpecificationPrice());
+        }
+        if (commoditySpecification.getIsDiscount() == 1){
+            orderItem.setItemPrice(orderItem.getItemPrice()*commoditySpecification.getCommodityDiscount());
+        }
         return orderItemDao.updateCountByPrimaryKey(orderItem);
     }
 

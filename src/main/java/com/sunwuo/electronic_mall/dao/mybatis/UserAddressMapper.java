@@ -3,6 +3,9 @@ package com.sunwuo.electronic_mall.dao.mybatis;
 import com.sunwuo.electronic_mall.entity.UserAddress;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserAddressMapper {
     int deleteByPrimaryKey(Integer addressId);
 
@@ -16,9 +19,17 @@ public interface UserAddressMapper {
 
     int updateByPrimaryKey(UserAddress record);
 
-    int deleteByIds(@Param("addressIds") int[] addressIds);
+    int deleteByIds(@Param("addressIds") Integer[] addressIds);
 
     int updateSortNumber(@Param("addressIds") Integer addressIds, @Param("sortNumber") Integer sortNumber);
 
     void updateSortNumbers(Integer sortNumber);
+
+    void updateNotDefault();
+
+    void updateIsDefault(Integer addressId);
+
+    int findAddressCounts(Map<String, Object> map);
+
+    List<UserAddress> findAddresses(Map<String, Object> map);
 }

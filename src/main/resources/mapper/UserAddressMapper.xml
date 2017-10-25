@@ -11,35 +11,61 @@
     <result column="address_municipal" jdbcType="VARCHAR" property="addressMunicipal" />
     <result column="address_type" jdbcType="INTEGER" property="addressType" />
     <result column="address_province" jdbcType="VARCHAR" property="addressProvince" />
-    <result column="adrress_county" jdbcType="VARCHAR" property="adrressCounty" />
+    <result column="address_county" jdbcType="VARCHAR" property="addressCounty" />
     <result column="sort_number" jdbcType="INTEGER" property="sortNumber" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
 
   <sql id="Base_Column_List">
     address_id, user_id, is_delete, address_content, address_phone, address_person, address_municipal, 
-    address_type, address_province, adrress_county, sort_number, create_time
+    address_type, address_province, address_county, sort_number, create_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+  <select id="findAddressCounts" parameterType="Map" resultType="Integer">
     select 
+    count(address_id)
+    from user_address_acy_t
+    where is_delete = 0
+    <if test="userId != null">
+      and user_id = userId;
+    </if>
+  </select>
+
+  <select id="findAddresses" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_address_acy_t
+    where is_delete = 0
+    <if test="userId != null">
+      and user_id = userId;
+    </if>
+    ORDER BY sort_number
+    <if test="pageModel!=null">
+      limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from user_address_acy_t
     where address_id = #{addressId,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_address_acy_t
     where address_id = #{addressId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.sunwuo.electronic_mall.entity.UserAddress">
-    insert into user_address_acy_t (address_id, user_id, is_delete, 
+  <insert id="insert" parameterType="com.sunwuo.electronic_mall.entity.UserAddress" useGeneratedKeys="true" keyProperty="addressId" keyColumn="address_id">
+    insert into user_address_acy_t (user_id,
       address_content, address_phone, address_person, 
       address_municipal, address_type, address_province, 
-      adrress_county, sort_number, create_time
+      address_county, create_time
       )
-    values (#{addressId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, 
+    values (#{userId,jdbcType=INTEGER},
       #{addressContent,jdbcType=VARCHAR}, #{addressPhone,jdbcType=VARCHAR}, #{addressPerson,jdbcType=VARCHAR}, 
       #{addressMunicipal,jdbcType=VARCHAR}, #{addressType,jdbcType=INTEGER}, #{addressProvince,jdbcType=VARCHAR}, 
-      #{adrressCounty,jdbcType=VARCHAR}, #{sortNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      #{addressCounty,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.sunwuo.electronic_mall.entity.UserAddress">
@@ -72,8 +98,8 @@
       <if test="addressProvince != null">
         address_province,
       </if>
-      <if test="adrressCounty != null">
-        adrress_county,
+      <if test="addressCounty != null">
+        address_county,
       </if>
       <if test="sortNumber != null">
         sort_number,
@@ -110,8 +136,8 @@
       <if test="addressProvince != null">
         #{addressProvince,jdbcType=VARCHAR},
       </if>
-      <if test="adrressCounty != null">
-        #{adrressCounty,jdbcType=VARCHAR},
+      <if test="addressCounty != null">
+        #{addressCounty,jdbcType=VARCHAR},
       </if>
       <if test="sortNumber != null">
         #{sortNumber,jdbcType=INTEGER},
@@ -148,8 +174,8 @@
       <if test="addressProvince != null">
         address_province = #{addressProvince,jdbcType=VARCHAR},
       </if>
-      <if test="adrressCounty != null">
-        adrress_county = #{adrressCounty,jdbcType=VARCHAR},
+      <if test="addressCounty != null">
+        address_county = #{addressCounty,jdbcType=VARCHAR},
       </if>
       <if test="sortNumber != null">
         sort_number = #{sortNumber,jdbcType=INTEGER},
@@ -170,7 +196,7 @@
       address_municipal = #{addressMunicipal,jdbcType=VARCHAR},
       address_type = #{addressType,jdbcType=INTEGER},
       address_province = #{addressProvince,jdbcType=VARCHAR},
-      adrress_county = #{adrressCounty,jdbcType=VARCHAR},
+      address_county = #{addressCounty,jdbcType=VARCHAR},
       sort_number = #{sortNumber,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where address_id = #{addressId,jdbcType=INTEGER}
@@ -185,6 +211,10 @@
 
   <update id="updateSortNumber">
     update user_address_acy_t set sort_number = #{sortNumber} where address_id = #{addressId}
+  </update>
+
+  <update id="updateNotDefault">
+    update user_address_acy_t set address_type = 2 where address_type = 1
   </update>
 
   <update id="updateSortNumbers">

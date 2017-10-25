@@ -21,11 +21,11 @@ public class UserAddress {
 
     private String addressProvince;
 
-    private String adrressCounty;
+    private String addressCounty;
 
     private Integer sortNumber;
 
-    private Date createTime;
+    private String createTime;
 
     public Integer getAddressId() {
         return addressId;
@@ -99,12 +99,12 @@ public class UserAddress {
         this.addressProvince = addressProvince == null ? null : addressProvince.trim();
     }
 
-    public String getAdrressCounty() {
-        return adrressCounty;
+    public String getAddressCounty() {
+        return addressCounty;
     }
 
-    public void setAdrressCounty(String adrressCounty) {
-        this.adrressCounty = adrressCounty == null ? null : adrressCounty.trim();
+    public void setAddressCounty(String addressCounty) {
+        this.addressCounty = addressCounty == null ? null : addressCounty.trim();
     }
 
     public Integer getSortNumber() {
@@ -115,11 +115,23 @@ public class UserAddress {
         this.sortNumber = sortNumber;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public boolean notEmpty() {
+        return addressContent == null || userId == null || addressPhone == null
+                || addressPerson == null || addressMunicipal == null|| addressType == null
+                || addressProvince == null || addressCounty == null;
+    }
+
+    public boolean isEmpty() {
+        return addressContent == null && userId == null && addressPhone == null
+                && addressPerson == null && addressMunicipal == null && addressType == null
+                && addressProvince == null && addressCounty == null;
     }
 }

@@ -1,6 +1,7 @@
 package com.sunwuo.electronic_mall.dao.mybatis;
 
 import com.sunwuo.electronic_mall.entity.CommoditySpecification;
+import com.sunwuo.electronic_mall.vo.SpecificationCountModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +29,7 @@ public interface CommoditySpecificationMapper {
     void updateSortNumbers(Integer sortNumber);
 
     int deleteByIds(@Param("specificationIds") int[] specificationIds);
+
+    SpecificationCountModel findCountByPrimaryKey(Integer specificationId);
+
 }

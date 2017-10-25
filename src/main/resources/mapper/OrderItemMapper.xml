@@ -12,6 +12,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
 
+
+
   <sql id="Base_Column_List">
     item_id, item_price, specification_id, order_id, shop_car_id, item_count, item_type, 
     create_time
@@ -91,7 +93,7 @@
     </foreach>
   </update>
 
-  <select id="findItemCounts" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="findItemCounts" parameterType="Map" resultType="Integer">
     select
     count(item_id)
     from order_item_acy_t
@@ -104,18 +106,32 @@
     </if>
   </select>
 
-  <select id="findItems" parameterType="Map" resultMap="BaseResultMap">
+  <resultMap id="ListResultMap" type="com.sunwuo.electronic_mall.vo.OrderItemModel">
+    <id column="item_id" jdbcType="INTEGER" property="itemId" />
+    <result column="item_price" jdbcType="DECIMAL" property="itemPrice" />
+    <result column="specification_price" jdbcType="DECIMAL" property="specificationPrice" />
+    <result column="specification_name" jdbcType="INTEGER" property="specificationName" />
+    <result column="is_discount" jdbcType="INTEGER" property="isDiscount" />
+    <result column="is_activity" jdbcType="INTEGER" property="isActivity" />
+    <result column="image_path" jdbcType="INTEGER" property="imagePath" />
+    <result column="commodity_name" jdbcType="INTEGER" property="commodityName" />
+    <result column="item_count" jdbcType="INTEGER" property="itemCount" />
+  </resultMap>
+
+  <select id="findItems" parameterType="Map" resultMap="ListResultMap">
     select
-    <include refid="Base_Column_List" />
-    from order_item_acy_t
-    where item_type &gt; 0
+    oi.item_id,oi.item_price,cs.specification_name,cs.specification_price,cs.image_path,ci.commodity_name,ci.is_discount,oi.item_count
+    from order_item_acy_t oi
+    LEFT JOIN commodity_specification_acy_t cs on oi.specification_id = cs.specification_id
+    LEFT JOIN commodity_info_acy_t ci on cs.commodity_id = ci.commodity_id
+    where oi.item_type &gt; 0
     <if test="orderId != null">
-      and order_id = #{orderId}
+      and oi.order_id = #{orderId}
     </if>
     <if test="shopCarId != null">
-      and shop_car_id = #{shopCarId}
+      and oi.shop_car_id = #{shopCarId}
     </if>
-    ORDER BY item_id
+    ORDER BY oi.item_id
     <if test="pageModel!=null">
       limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
     </if>

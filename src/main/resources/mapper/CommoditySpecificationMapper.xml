@@ -20,6 +20,24 @@
     specification_id, specification_name, specification_count, specification_price, sort_number, create_time, is_delete,commodity_id,image_path, activity_price
   </sql>
 
+  <resultMap id="CountResultMap" type="com.sunwuo.electronic_mall.vo.SpecificationCountModel">
+    <id column="specification_id" jdbcType="INTEGER" property="specificationId" />
+    <result column="specification_count" jdbcType="INTEGER" property="specificationCount" />
+    <result column="commodity_discount" jdbcType="DECIMAL" property="commodityDiscount" />
+    <result column="specification_price" jdbcType="DECIMAL" property="specificationPrice" />
+    <result column="activity_price" jdbcType="DECIMAL" property="activityPrice" />
+    <result column="is_discount" jdbcType="INTEGER" property="isDiscount" />
+    <result column="is_activity" jdbcType="INTEGER" property="isActivity" />
+  </resultMap>
+
+
+  <select id="findCountByPrimaryKey" parameterType="java.lang.Integer" resultMap="CountResultMap">
+    select
+    cs.specification_id,cs.specification_count,cs.specification_price,cs.activity_price,ci.commodity_discount,ci.is_discount,ci.is_activity
+    from commodity_specification_acy_t cs LEFT JOIN commodity_info_acy_t ci on cs.commodity_id = ci.commodity_id
+    where cs.specification_id = #{specificationId,jdbcType=INTEGER}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
