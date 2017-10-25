@@ -229,4 +229,11 @@
     where order_id = #{orderId,jdbcType=INTEGER}
   </update>
 
+    <update id="deleteByIds">
+        update order_info_acy_t set is_delete = 1 where order_id in
+        <foreach close=")" collection="orderIds" index="index" item="orderId" open="(" separator=",">
+            #{orderId}
+        </foreach>
+    </update>
+
 </mapper>

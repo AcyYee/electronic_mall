@@ -9,6 +9,4 @@ public interface UserInfoMapper {
 	int updateByPrimaryKeySelective(UserInfo userInfo);
 	UserInfo findByOpenid(String openid);
 	UserInfo findById(int id);
-	UserInfo findByDesignId(Integer designId);
-	UserInfo findByShopId(int id);
 }

@@ -5,6 +5,7 @@ import com.sunwuo.electronic_mall.dao.mybatis.OrderItemMapper;
 import com.sunwuo.electronic_mall.entity.CommoditySpecification;
 import com.sunwuo.electronic_mall.entity.OrderItem;
 import com.sunwuo.electronic_mall.service.OrderItemService;
+import com.sunwuo.electronic_mall.util.TimeUtil;
 import com.sunwuo.electronic_mall.vo.PageData;
 import com.sunwuo.electronic_mall.vo.PageModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         OrderItem temp = orderItemDao.findBySpecificationAndShopCar(orderItem.getSpecificationId(),orderItem.getShopCarId());
         CommoditySpecification commoditySpecification = commoditySpecificationMapper.selectByPrimaryKey(orderItem.getSpecificationId());
         if (temp == null){
+            orderItem.setCreateTime(TimeUtil.getDateTime(1));
             orderItem.setItemType(1);
             orderItem.setItemPrice(orderItem.getItemCount()*commoditySpecification.getSpecificationPrice());
             return orderItemDao.insert(orderItem);
@@ -43,12 +45,12 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public int updateOrderItem(OrderItem orderItem) {
-        if (orderItem == null || orderItem.getItemId() == null || orderItem.isEmpty()){
+        if (orderItem == null || orderItem.getItemId() == null || orderItem.getItemCount() == null ||orderItem.getItemCount()>0){
             return -1;
         }
         CommoditySpecification commoditySpecification = commoditySpecificationMapper.selectByPrimaryKey(orderItem.getSpecificationId());
         orderItem.setItemPrice(orderItem.getItemCount()*commoditySpecification.getSpecificationPrice());
-        return orderItemDao.updateByPrimaryKeySelective(orderItem);
+        return orderItemDao.updateCountByPrimaryKey(orderItem);
     }
 
     @Override

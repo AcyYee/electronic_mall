@@ -10,16 +10,7 @@ public class UserInfo {
 
     private String wxOpenid;
 
-    private Integer isDesign;
-
-    private Integer isShop;
-
-    private Integer isRegist;
-
-    private Byte flagDesign; //0未申请      1普通待付款  2普通通过  3加V待付款  4加V通过
-
-    private Byte flagShop; //0未申请   1待付款  2待审核  3通过
-
+    private Integer defaultAddress;
     public Integer getUserId() {
         return userId;
     }
@@ -44,43 +35,13 @@ public class UserInfo {
         this.wxOpenid = wxOpenid == null ? null : wxOpenid.trim();
     }
 
-    public Integer getIsDesign() {
-        return isDesign;
+    public Integer getDefaultAddress() {
+        return defaultAddress;
     }
 
-    public void setIsDesign(Integer isDesign) {
-        this.isDesign = isDesign;
+    public void setDefaultAddress(Integer defaultAddress) {
+        this.defaultAddress = defaultAddress;
     }
 
-    public Integer getIsShop() {
-        return isShop;
-    }
 
-    public void setIsShop(Integer isShop) {
-        this.isShop = isShop;
-    }
-
-    public Integer getIsRegist() {
-        return isRegist;
-    }
-
-    public void setIsRegist(Integer isRegist) {
-        this.isRegist = isRegist;
-    }
-
-    public Byte getFlagDesign() {
-        return flagDesign;
-    }
-
-    public void setFlagDesign(Byte flagDesign) {
-        this.flagDesign = flagDesign;
-    }
-
-    public Byte getFlagShop() {
-        return flagShop;
-    }
-
-    public void setFlagShop(Byte flagShop) {
-        this.flagShop = flagShop;
-    }
 }

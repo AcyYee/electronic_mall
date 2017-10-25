@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.UserAddressMapper">
+  <resultMap id="BaseResultMap" type="com.sunwuo.electronic_mall.entity.UserAddress">
+    <id column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="address_content" jdbcType="VARCHAR" property="addressContent" />
+    <result column="address_phone" jdbcType="VARCHAR" property="addressPhone" />
+    <result column="address_person" jdbcType="VARCHAR" property="addressPerson" />
+    <result column="address_municipal" jdbcType="VARCHAR" property="addressMunicipal" />
+    <result column="address_type" jdbcType="INTEGER" property="addressType" />
+    <result column="address_province" jdbcType="VARCHAR" property="addressProvince" />
+    <result column="adrress_county" jdbcType="VARCHAR" property="adrressCounty" />
+    <result column="sort_number" jdbcType="INTEGER" property="sortNumber" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    address_id, user_id, is_delete, address_content, address_phone, address_person, address_municipal, 
+    address_type, address_province, adrress_county, sort_number, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_address_acy_t
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_address_acy_t
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sunwuo.electronic_mall.entity.UserAddress">
+    insert into user_address_acy_t (address_id, user_id, is_delete, 
+      address_content, address_phone, address_person, 
+      address_municipal, address_type, address_province, 
+      adrress_county, sort_number, create_time
+      )
+    values (#{addressId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, 
+      #{addressContent,jdbcType=VARCHAR}, #{addressPhone,jdbcType=VARCHAR}, #{addressPerson,jdbcType=VARCHAR}, 
+      #{addressMunicipal,jdbcType=VARCHAR}, #{addressType,jdbcType=INTEGER}, #{addressProvince,jdbcType=VARCHAR}, 
+      #{adrressCounty,jdbcType=VARCHAR}, #{sortNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sunwuo.electronic_mall.entity.UserAddress">
+    insert into user_address_acy_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="addressId != null">
+        address_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="addressContent != null">
+        address_content,
+      </if>
+      <if test="addressPhone != null">
+        address_phone,
+      </if>
+      <if test="addressPerson != null">
+        address_person,
+      </if>
+      <if test="addressMunicipal != null">
+        address_municipal,
+      </if>
+      <if test="addressType != null">
+        address_type,
+      </if>
+      <if test="addressProvince != null">
+        address_province,
+      </if>
+      <if test="adrressCounty != null">
+        adrress_county,
+      </if>
+      <if test="sortNumber != null">
+        sort_number,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="addressId != null">
+        #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="addressContent != null">
+        #{addressContent,jdbcType=VARCHAR},
+      </if>
+      <if test="addressPhone != null">
+        #{addressPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addressPerson != null">
+        #{addressPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="addressMunicipal != null">
+        #{addressMunicipal,jdbcType=VARCHAR},
+      </if>
+      <if test="addressType != null">
+        #{addressType,jdbcType=INTEGER},
+      </if>
+      <if test="addressProvince != null">
+        #{addressProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="adrressCounty != null">
+        #{adrressCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNumber != null">
+        #{sortNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sunwuo.electronic_mall.entity.UserAddress">
+    update user_address_acy_t
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="addressContent != null">
+        address_content = #{addressContent,jdbcType=VARCHAR},
+      </if>
+      <if test="addressPhone != null">
+        address_phone = #{addressPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addressPerson != null">
+        address_person = #{addressPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="addressMunicipal != null">
+        address_municipal = #{addressMunicipal,jdbcType=VARCHAR},
+      </if>
+      <if test="addressType != null">
+        address_type = #{addressType,jdbcType=INTEGER},
+      </if>
+      <if test="addressProvince != null">
+        address_province = #{addressProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="adrressCounty != null">
+        adrress_county = #{adrressCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNumber != null">
+        sort_number = #{sortNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sunwuo.electronic_mall.entity.UserAddress">
+    update user_address_acy_t
+    set user_id = #{userId,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      address_content = #{addressContent,jdbcType=VARCHAR},
+      address_phone = #{addressPhone,jdbcType=VARCHAR},
+      address_person = #{addressPerson,jdbcType=VARCHAR},
+      address_municipal = #{addressMunicipal,jdbcType=VARCHAR},
+      address_type = #{addressType,jdbcType=INTEGER},
+      address_province = #{addressProvince,jdbcType=VARCHAR},
+      adrress_county = #{adrressCounty,jdbcType=VARCHAR},
+      sort_number = #{sortNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </update>
+
+  <update id="deleteByIds">
+    update user_address_acy_t set is_delete = 1 where address_id in
+    <foreach close=")" collection="addressIds" index="index" item="addressId" open="(" separator=",">
+      #{addressId}
+    </foreach>
+  </update>
+
+  <update id="updateSortNumber">
+    update user_address_acy_t set sort_number = #{sortNumber} where address_id = #{addressId}
+  </update>
+
+  <update id="updateSortNumbers">
+    update user_address_acy_t set sort_number = sort_number + 1 where sort_number &lt; #{sortNumber}
+  </update>
+
+
+</mapper>

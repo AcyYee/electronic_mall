@@ -14,7 +14,7 @@ public interface OrderItemMapper {
 
     int updateByPrimaryKeySelective(OrderItem record);
 
-    int updateByPrimaryKey(OrderItem record);
+    int updateCountByPrimaryKey(OrderItem record);
 
     int deleteByIds(@Param("itemIds") Integer[] itemIds);
 
@@ -22,6 +22,6 @@ public interface OrderItemMapper {
 
     List<OrderItem> findItems(Map<String, Object> map);
 
-    OrderItem findBySpecificationAndShopCar(Integer specificationId, Integer shopCarId);
+    OrderItem findBySpecificationAndShopCar(@Param("specificationId") Integer specificationId,@Param("shopCarId") Integer shopCarId);
 
 }

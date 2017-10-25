@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("order/item")
 public class OrderItemController {
 
+    private final OrderItemService orderItemService;
+
     @Autowired
-    private OrderItemService orderItemService;
+    public OrderItemController(OrderItemService orderItemService) {
+        this.orderItemService = orderItemService;
+    }
 
     @RequestMapping("wx/add")
     public ResultObject add(OrderItem orderItem){

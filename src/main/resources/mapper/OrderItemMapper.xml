@@ -32,9 +32,9 @@
     and shop_car_id = #{shopCarId,jdbcType=INTEGER}
   </select>
 
-  <insert id="insert" parameterType="com.sunwuo.electronic_mall.entity.OrderItem">
+  <insert id="insert" parameterType="com.sunwuo.electronic_mall.entity.OrderItem" useGeneratedKeys="true" keyProperty="itemId" keyColumn="item_id">
     insert into order_item_acy_t (item_price, specification_id,
-      shop_car_id, item_count,item_type
+      shop_car_id, item_count,item_type,
       create_time)
     values (#{itemPrice,jdbcType=DECIMAL}, #{specificationId,jdbcType=INTEGER},
       #{shopCarId,jdbcType=INTEGER}, #{itemCount,jdbcType=INTEGER}, #{itemType,jdbcType=INTEGER},
@@ -68,20 +68,24 @@
     </set>
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sunwuo.electronic_mall.entity.OrderItem">
+
+  <update id="updateCountByPrimaryKey" parameterType="com.sunwuo.electronic_mall.entity.OrderItem">
     update order_item_acy_t
     set item_price = #{itemPrice,jdbcType=DECIMAL},
-      specification_id = #{specificationId,jdbcType=INTEGER},
-      order_id = #{orderId,jdbcType=INTEGER},
-      shop_car_id = #{shopCarId,jdbcType=INTEGER},
-      item_count = #{itemCount,jdbcType=INTEGER},
-      item_type = #{itemType,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      item_count = #{itemCount,jdbcType=INTEGER}
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
 
-  <update id="deleteByIds">
-    update order_item_acy_t set is_delete = 1 where item_id IN
+  <delete id="deleteByIds">
+    delete from order_item_acy_t where item_id IN
+    <foreach item="itemId" index="index" collection="itemIds" open="(" separator="," close=")">
+      #{itemId}
+    </foreach>
+  </delete>
+
+  <update id="updateOrderByIds">
+    update order_item_acy_t
+    set order_id = #{orderId}, shop_car_id = 0 where item_id IN
     <foreach item="itemId" index="index" collection="itemIds" open="(" separator="," close=")">
       #{itemId}
     </foreach>
