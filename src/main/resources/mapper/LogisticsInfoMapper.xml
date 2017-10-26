@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.LogisticsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.sunwuo.electronic_mall.entity.LogisticsInfo">
+    <id column="logistics" jdbcType="INTEGER" property="logistics" />
+    <result column="model_id" jdbcType="INTEGER" property="modelId" />
+    <result column="logistics_weight" jdbcType="INTEGER" property="logisticsWeight" />
+    <result column="logistics_tag" jdbcType="VARCHAR" property="logisticsTag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="mail_price" jdbcType="DECIMAL" property="mailPrice" />
+    <result column="logistics_body" jdbcType="VARCHAR" property="logisticsBody" />
+    <result column="reply_time" jdbcType="TIMESTAMP" property="replyTime" />
+    <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime" />
+    <result column="logistics_type" jdbcType="INTEGER" property="logisticsType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    logistics, model_id, logistics_weight, logistics_tag, create_time, is_delete, update_time, 
+    mail_price, logistics_body, reply_time, receive_time, logistics_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_info_acy_t
+    where logistics = #{logistics,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from logistics_info_acy_t
+    where logistics = #{logistics,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sunwuo.electronic_mall.entity.LogisticsInfo">
+    insert into logistics_info_acy_t (logistics, model_id, logistics_weight, 
+      logistics_tag, create_time, is_delete, 
+      update_time, mail_price, logistics_body, 
+      reply_time, receive_time, logistics_type
+      )
+    values (#{logistics,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER}, #{logisticsWeight,jdbcType=INTEGER}, 
+      #{logisticsTag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{mailPrice,jdbcType=DECIMAL}, #{logisticsBody,jdbcType=VARCHAR}, 
+      #{replyTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, #{logisticsType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sunwuo.electronic_mall.entity.LogisticsInfo">
+    insert into logistics_info_acy_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logistics != null">
+        logistics,
+      </if>
+      <if test="modelId != null">
+        model_id,
+      </if>
+      <if test="logisticsWeight != null">
+        logistics_weight,
+      </if>
+      <if test="logisticsTag != null">
+        logistics_tag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="mailPrice != null">
+        mail_price,
+      </if>
+      <if test="logisticsBody != null">
+        logistics_body,
+      </if>
+      <if test="replyTime != null">
+        reply_time,
+      </if>
+      <if test="receiveTime != null">
+        receive_time,
+      </if>
+      <if test="logisticsType != null">
+        logistics_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logistics != null">
+        #{logistics,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null">
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsWeight != null">
+        #{logisticsWeight,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsTag != null">
+        #{logisticsTag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mailPrice != null">
+        #{mailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticsBody != null">
+        #{logisticsBody,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null">
+        #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null">
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsType != null">
+        #{logisticsType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sunwuo.electronic_mall.entity.LogisticsInfo">
+    update logistics_info_acy_t
+    <set>
+      <if test="modelId != null">
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsWeight != null">
+        logistics_weight = #{logisticsWeight,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsTag != null">
+        logistics_tag = #{logisticsTag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mailPrice != null">
+        mail_price = #{mailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticsBody != null">
+        logistics_body = #{logisticsBody,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null">
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null">
+        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsType != null">
+        logistics_type = #{logisticsType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where logistics = #{logistics,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sunwuo.electronic_mall.entity.LogisticsInfo">
+    update logistics_info_acy_t
+    set model_id = #{modelId,jdbcType=INTEGER},
+      logistics_weight = #{logisticsWeight,jdbcType=INTEGER},
+      logistics_tag = #{logisticsTag,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      mail_price = #{mailPrice,jdbcType=DECIMAL},
+      logistics_body = #{logisticsBody,jdbcType=VARCHAR},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      logistics_type = #{logisticsType,jdbcType=INTEGER}
+    where logistics = #{logistics,jdbcType=INTEGER}
+  </update>
+</mapper>
