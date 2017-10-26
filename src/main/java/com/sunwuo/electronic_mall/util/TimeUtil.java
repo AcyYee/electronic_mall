@@ -312,10 +312,11 @@ public class TimeUtil {
      */
     public static String getMondayOfThisWeek() {
         Calendar c = Calendar.getInstance();
-        int day_of_week = c.get(Calendar.DAY_OF_WEEK) - 1;
-        if (day_of_week == 0)
-            day_of_week = 7;
-        c.add(Calendar.DATE, -day_of_week + 1);
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+        if (dayOfWeek == 0) {
+            dayOfWeek = 7;
+        }
+        c.add(Calendar.DATE, -dayOfWeek + 1);
         return formatDate(3, c.getTime());
     }
 
@@ -326,10 +327,11 @@ public class TimeUtil {
      */
     public static String getSundayOfThisWeek() {
         Calendar c = Calendar.getInstance();
-        int day_of_week = c.get(Calendar.DAY_OF_WEEK) - 1;
-        if (day_of_week == 0)
-            day_of_week = 7;
-        c.add(Calendar.DATE, -day_of_week + 7);
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+        if (dayOfWeek == 0) {
+            dayOfWeek = 7;
+        }
+        c.add(Calendar.DATE, -dayOfWeek + 7);
         return formatDate(3, c.getTime());
     }
 

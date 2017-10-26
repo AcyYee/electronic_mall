@@ -39,7 +39,7 @@
     <if test="userId != null">
       and user_id = userId;
     </if>
-    ORDER BY sort_number
+    ORDER BY address_type,address_id desc
     <if test="pageModel!=null">
       limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
     </if>
@@ -209,16 +209,12 @@
     </foreach>
   </update>
 
-  <update id="updateSortNumber">
-    update user_address_acy_t set sort_number = #{sortNumber} where address_id = #{addressId}
-  </update>
-
   <update id="updateNotDefault">
-    update user_address_acy_t set address_type = 2 where address_type = 1
+    update user_address_acy_t set address_type = 2 where address_type = 1 and user_id = #{userId}
   </update>
 
-  <update id="updateSortNumbers">
-    update user_address_acy_t set sort_number = sort_number + 1 where sort_number &lt; #{sortNumber}
+  <update id="updateIsDefault">
+    update user_address_acy_t set address_type = 1 where address_id = #{addressId}
   </update>
 
 

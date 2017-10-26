@@ -7,6 +7,7 @@
     <id column="specification_id" jdbcType="INTEGER" property="specificationId" />
     <result column="specification_name" jdbcType="VARCHAR" property="specificationName" />
     <result column="specification_count" jdbcType="INTEGER" property="specificationCount" />
+    <result column="specification_weight" jdbcType="INTEGER" property="specificationWeight" />
     <result column="specification_price" jdbcType="DECIMAL" property="specificationPrice" />
     <result column="activity_price" jdbcType="DECIMAL" property="activityPrice" />
     <result column="commodity_id" jdbcType="INTEGER" property="commodityId" />
@@ -17,13 +18,14 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    specification_id, specification_name, specification_count, specification_price, sort_number, create_time, is_delete,commodity_id,image_path, activity_price
+    specification_id, specification_name, specification_count, specification_price, specification_weight, sort_number, create_time, is_delete,commodity_id,image_path, activity_price
   </sql>
 
   <resultMap id="CountResultMap" type="com.sunwuo.electronic_mall.vo.SpecificationCountModel">
     <id column="specification_id" jdbcType="INTEGER" property="specificationId" />
     <result column="specification_count" jdbcType="INTEGER" property="specificationCount" />
     <result column="commodity_discount" jdbcType="DECIMAL" property="commodityDiscount" />
+    <result column="specification_weight" jdbcType="INTEGER" property="specificationWeight" />
     <result column="specification_price" jdbcType="DECIMAL" property="specificationPrice" />
     <result column="activity_price" jdbcType="DECIMAL" property="activityPrice" />
     <result column="is_discount" jdbcType="INTEGER" property="isDiscount" />
@@ -33,7 +35,7 @@
 
   <select id="findCountByPrimaryKey" parameterType="java.lang.Integer" resultMap="CountResultMap">
     select
-    cs.specification_id,cs.specification_count,cs.specification_price,cs.activity_price,ci.commodity_discount,ci.is_discount,ci.is_activity
+    cs.specification_id,cs.specification_count,cs.specification_price,cs.specification_weight,cs.activity_price,ci.commodity_discount,ci.is_discount,ci.is_activity
     from commodity_specification_acy_t cs LEFT JOIN commodity_info_acy_t ci on cs.commodity_id = ci.commodity_id
     where cs.specification_id = #{specificationId,jdbcType=INTEGER}
   </select>
@@ -52,10 +54,10 @@
 
   <insert id="insert" parameterType="CommoditySpecification" useGeneratedKeys="true" keyColumn="specification_id" keyProperty="specificationId">
     insert into commodity_specification_acy_t (specification_id, specification_name,
-      specification_count, specification_price, sort_number, create_time,commodity_id,
+      specification_count, specification_price, specification_weight, sort_number, create_time,commodity_id,
       is_delete,image_path)
     values (#{specificationId,jdbcType=INTEGER}, #{specificationName,jdbcType=VARCHAR},
-      #{specificationCount,jdbcType=INTEGER}, #{specificationPrice,jdbcType=DECIMAL},
+      #{specificationCount,jdbcType=INTEGER}, #{specificationPrice,jdbcType=DECIMAL}, #{specificationWeight,jdbcType=INTEGER},
       #{sortNumber,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR},
       #{commodityId,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR})
   </insert>
@@ -71,6 +73,9 @@
       </if>
       <if test="specificationPrice != null">
         specification_price,
+      </if>
+      <if test="specificationWeight != null">
+        specification_weight,
       </if>
       <if test="activityPrice != null">
         activity_price,
@@ -100,6 +105,9 @@
       </if>
       <if test="specificationPrice != null">
         #{specificationPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="specificationWeight != null">
+        #{specificationWeight,jdbcType=INTEGER},
       </if>
       <if test="activityPrice != null">
         #{activityPrice,jdbcType=DECIMAL},
@@ -134,6 +142,9 @@
       <if test="specificationPrice != null">
         specification_price = #{specificationPrice,jdbcType=DECIMAL},
       </if>
+      <if test="specificationWeight != null">
+        specification_weight = #{specificationWeight,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=VARCHAR},
       </if>
@@ -154,6 +165,7 @@
     update commodity_specification_acy_t
     set specification_name = #{specificationName,jdbcType=VARCHAR},
       specification_count = #{specificationCount,jdbcType=INTEGER},
+      specification_weight = #{specificationWeight,jdbcType=INTEGER},
       specification_price = #{specificationPrice,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=VARCHAR},
       image_path = #{imagePath,jdbcType=VARCHAR},

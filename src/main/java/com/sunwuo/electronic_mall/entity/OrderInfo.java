@@ -30,6 +30,8 @@ public class OrderInfo {
 
     private String orderRemark;
 
+    private String wxAddressInfo;
+
     private Integer storeId;
 
     private Integer isDelete;
@@ -152,6 +154,14 @@ public class OrderInfo {
 
     public void setStoreId(Integer storeId) {
         this.storeId = storeId;
+    }
+
+    public String getWxAddressInfo() {
+        return wxAddressInfo;
+    }
+
+    public void setWxAddressInfo(String wxAddressInfo) {
+        this.wxAddressInfo = wxAddressInfo;
     }
 
     public Integer getIsDelete() {

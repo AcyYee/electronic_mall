@@ -1,5 +1,8 @@
 package com.sunwuo.electronic_mall.entity;
 
+/**
+ * @author acy 屋大维
+ */
 public class StoreSpecification {
 
     private Integer specificationId;

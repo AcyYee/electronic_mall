@@ -5,7 +5,10 @@
         <id column="store_id" jdbcType="INTEGER" property="storeId"/>
         <result column="store_name" jdbcType="VARCHAR" property="storeName"/>
         <result column="store_discount" jdbcType="DECIMAL" property="storeDiscount"/>
+        <result column="min_mail_price" jdbcType="DECIMAL" property="minMailPrice"/>
+        <result column="less_mail_price" jdbcType="DECIMAL" property="lessMailPrice"/>
         <result column="is_discount" jdbcType="INTEGER" property="isDiscount"/>
+        <result column="max_weight" jdbcType="INTEGER" property="maxWeight"/>
         <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
         <result column="store_turnover" jdbcType="DECIMAL" property="storeTurnover"/>
         <result column="store_location" jdbcType="VARCHAR" property="storeLocation"/>
@@ -13,18 +16,21 @@
         <result column="store_image" jdbcType="VARCHAR" property="storeImage"/>
         <result column="is_business" jdbcType="INTEGER" property="isBusiness"/>
         <result column="store_remark" jdbcType="VARCHAR" property="storeRemark"/>
-        <result column="store_admin" jdbcType="VARCHAR" property="storeAdmin"/>
+        <result column="store_key" jdbcType="VARCHAR" property="storeKey"/>
         <result column="store_type" jdbcType="VARCHAR" property="storeType"/>
     </resultMap>
+
     <sql id="Base_Column_List">
         store_id, store_name, store_discount, is_discount, is_delete, store_turnover, store_location,
-        background_image, store_image, is_business, store_remark
+        background_image, store_image, is_business, store_remark,max_weight,min_mail_price,less_mail_price
     </sql>
+
     <select id="storeInfoList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from store_info_acy_t
     </select>
+
     <select id="storeLogin" resultMap="BaseResultMap" parameterType="StoreInfo">
         select
         <include refid="Base_Column_List"/>
@@ -38,6 +44,27 @@
             </if>
         </where>
     </select>
+
+    <resultMap id="CountModelResultMap" type="com.sunwuo.electronic_mall.vo.StoreInfoCountModel">
+        <result column="store_discount" jdbcType="DECIMAL" property="storeDiscount"/>
+        <result column="min_mail_price" jdbcType="DECIMAL" property="minMailPrice"/>
+        <result column="less_mail_price" jdbcType="DECIMAL" property="lessMailPrice"/>
+        <result column="is_discount" jdbcType="INTEGER" property="isDiscount"/>
+        <result column="max_weight" jdbcType="INTEGER" property="maxWeight"/>
+        <result column="store_key" jdbcType="VARCHAR" property="storeKey"/>
+        <result column="appid" jdbcType="VARCHAR" property="appId"/>
+        <result column="store_name" jdbcType="VARCHAR" property="storeName"/>
+        <result column="mch_id" jdbcType="VARCHAR" property="mchId"/>
+        <result column="mch_secret" jdbcType="VARCHAR" property="payKey"/>
+    </resultMap>
+
+    <select id="findCountModelByPrimaryKey" parameterType="java.lang.Integer" resultMap="CountModelResultMap">
+        select
+        store_discount,min_mail_price,less_mail_price,is_discount,max_weight,store_key,appid,store_name,mch_id,mch_secret
+        from store_info_acy_t
+        where store_id = #{storeId,jdbcType=INTEGER}
+    </select>
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -54,11 +81,11 @@
         insert into store_info_acy_t (store_id, store_name, store_discount,
         is_discount, is_delete, store_turnover,
         store_location, background_image, store_image,
-        is_business, store_remark)
+        is_business, store_remark,min_mail_price,less_mail_price,max_weight)
         values (#{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, #{storeDiscount,jdbcType=DECIMAL},
         #{isDiscount,jdbcType=INTEGER}, #{isDelete,jdbcType=INTEGER}, #{storeTurnover,jdbcType=DECIMAL},
         #{storeLocation,jdbcType=VARCHAR}, #{backgroundImage,jdbcType=VARCHAR}, #{storeImage,jdbcType=VARCHAR},
-        #{isBusiness,jdbcType=INTEGER}, #{storeRemark,jdbcType=VARCHAR})
+        #{isBusiness,jdbcType=INTEGER}, #{storeRemark,jdbcType=VARCHAR},#{minMailPrice,jdbcType=DECIMAL},#{lessMailPrice,jdbcType=DECIMAL},#{maxWeight,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" parameterType="StoreInfo" useGeneratedKeys="true" keyProperty="storeId">
         insert into store_info_acy_t
@@ -71,6 +98,15 @@
             </if>
             <if test="isDiscount != null">
                 is_discount,
+            </if>
+            <if test="maxWeight != null">
+                max_weight,
+            </if>
+            <if test="lessMailPrice != null">
+                less_mail_price,
+            </if>
+            <if test="minMailPrice != null">
+                min_mail_price,
             </if>
             <if test="isDelete != null">
                 is_delete,
@@ -103,6 +139,15 @@
             </if>
             <if test="isDiscount != null">
                 #{isDiscount,jdbcType=INTEGER},
+            </if>
+            <if test="maxWeight != null">
+                #{maxWeight,jdbcType=INTEGER},
+            </if>
+            <if test="lessMailPrice != null">
+                #{lessMailPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="minMailPrice != null">
+                #{minMailPrice,jdbcType=DECIMAL},
             </if>
             <if test="isDelete != null">
                 #{isDelete,jdbcType=INTEGER},
@@ -140,6 +185,15 @@
             <if test="isDiscount != null">
                 is_discount = #{isDiscount,jdbcType=INTEGER},
             </if>
+            <if test="maxWeight != null">
+                max_weight = #{maxWeight,jdbcType=INTEGER},
+            </if>
+            <if test="lessMailPrice != null">
+                less_mail_price = #{lessMailPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="minMailPrice != null">
+                min_mail_price = #{minMailPrice,jdbcType=DECIMAL},
+            </if>
             <if test="isDelete != null">
                 is_delete = #{isDelete,jdbcType=INTEGER},
             </if>
@@ -171,6 +225,9 @@
         store_name = #{storeName,jdbcType=VARCHAR},
         store_discount = #{storeDiscount,jdbcType=DECIMAL},
         is_discount = #{isDiscount,jdbcType=INTEGER},
+        max_weight = #{maxWeight,jdbcType=INTEGER},
+        less_mail_price = #{lessMailPrice,jdbcType=DECIMAL},
+        min_mail_price = #{minMailPrice,jdbcType=DECIMAL},
         is_delete = #{isDelete,jdbcType=INTEGER},
         store_turnover = #{storeTurnover,jdbcType=DECIMAL},
         store_location = #{storeLocation,jdbcType=VARCHAR},

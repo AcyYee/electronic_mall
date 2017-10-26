@@ -2,6 +2,7 @@ package com.sunwuo.electronic_mall.dao.mybatis;
 
 
 import com.sunwuo.electronic_mall.entity.UserInfo;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserInfoMapper {
 
@@ -13,5 +14,5 @@ public interface UserInfoMapper {
 
 	UserInfo findById(int id);
 
-    void updateDefaultAddress(Integer addressId);
+    int updateDefaultAddress(@Param("addressId") Integer addressId,@Param("userId") Integer userId);
 }

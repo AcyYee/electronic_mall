@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunwuo.electronic_mall.dao.mybatis.LogisticsModelMapper">
+
   <resultMap id="BaseResultMap" type="LogisticsModel">
     <id column="model_id" jdbcType="INTEGER" property="modelId" />
     <result column="delivery_area" jdbcType="VARCHAR" property="deliveryArea" />
+    <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
     <result column="free_weight" jdbcType="DECIMAL" property="freeWeight" />
     <result column="beyond_weight" jdbcType="DECIMAL" property="beyondWeight" />
     <result column="min_price" jdbcType="DECIMAL" property="minPrice" />
@@ -14,9 +16,10 @@
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
   </resultMap>
+
   <sql id="Base_Column_List">
     model_id, delivery_area, free_weight, beyond_weight, min_price, beyond_price, is_delete, 
-    create_time, sort_number, company_id
+    create_time, sort_number, company_id ,province_code
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -71,11 +74,11 @@
 
   <insert id="insert" parameterType="LogisticsModel" useGeneratedKeys="true" keyColumn="model_id" keyProperty="modelId">
     insert into logistics_model_acy_t (model_id, delivery_area, free_weight, 
-      beyond_weight, min_price, beyond_price, company_id,
+      beyond_weight, min_price, beyond_price, company_id, province_code
       is_delete, create_time)
     values (#{modelId,jdbcType=INTEGER}, #{deliveryArea,jdbcType=VARCHAR}, #{freeWeight,jdbcType=DECIMAL}, 
       #{beyondWeight,jdbcType=DECIMAL}, #{minPrice,jdbcType=DECIMAL}, #{beyondPrice,jdbcType=DECIMAL}, #{companyId,jdbcType=INTEGER},
-      #{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{provinceCode,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
 
   <insert id="insertSelective" parameterType="LogisticsModel" useGeneratedKeys="true" keyColumn="model_id" keyProperty="modelId">
@@ -86,6 +89,9 @@
       </if>
       <if test="deliveryArea != null">
         delivery_area,
+      </if>
+      <if test="provinceCode != null">
+        province_code,
       </if>
       <if test="freeWeight != null">
         free_weight,
@@ -115,6 +121,9 @@
       </if>
       <if test="deliveryArea != null">
         #{deliveryArea,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null">
+        #{provinceCode,jdbcType=VARCHAR},
       </if>
       <if test="freeWeight != null">
         #{freeWeight,jdbcType=DECIMAL},
@@ -146,6 +155,9 @@
       <if test="deliveryArea != null">
         delivery_area = #{deliveryArea,jdbcType=VARCHAR},
       </if>
+      <if test="provinceCode != null">
+        province_code = #{provinceCode,jdbcType=VARCHAR},
+      </if>
       <if test="freeWeight != null">
         free_weight = #{freeWeight,jdbcType=DECIMAL},
       </if>
@@ -176,6 +188,7 @@
     set delivery_area = #{deliveryArea,jdbcType=VARCHAR},
       free_weight = #{freeWeight,jdbcType=DECIMAL},
       beyond_weight = #{beyondWeight,jdbcType=DECIMAL},
+      province_code = #{provinceCode,jdbcType=VARCHAR},
       min_price = #{minPrice,jdbcType=DECIMAL},
       beyond_price = #{beyondPrice,jdbcType=DECIMAL},
       is_delete = #{isDelete,jdbcType=INTEGER},
@@ -183,6 +196,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where model_id = #{modelId,jdbcType=INTEGER}
   </update>
+
+  <select id="findByProvinceCode" parameterType="String" resultMap="BaseResultMap">
+    SELECT model_id, free_weight, beyond_weight, min_price, beyond_price, province_code
+    FROM logistics_model_acy_t
+    where is_delete = 0 AND province_code LIKE concat('%',#{provinceCode},'%') and company_id = #{companyId}
+  </select>
 
   <update id="deleteByIds">
     update logistics_model_acy_t set is_delete = 1 where model_id IN

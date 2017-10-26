@@ -22,6 +22,7 @@ public class CommodityInfoServiceImpl implements CommodityInfoService{
         this.commodityInfoDao = commodityInfoDao;
     }
 
+    @Override
     public int addCommodityInfo(CommodityInfo commodityInfo) {
         System.out.println(commodityInfo);
         if (commodityInfo == null || commodityInfo.isEmpty())
@@ -34,6 +35,7 @@ public class CommodityInfoServiceImpl implements CommodityInfoService{
             return 0;
     }
 
+    @Override
     public int updateCommodityInfo(CommodityInfo commodityInfo) {
         if (commodityInfo == null || commodityInfo.getCommodityId() == null){
             return -1;
@@ -41,6 +43,7 @@ public class CommodityInfoServiceImpl implements CommodityInfoService{
         return commodityInfoDao.updateByPrimaryKeySelective(commodityInfo);
     }
 
+    @Override
     public int deletesCommodityInfo(int[] commodityIds) {
         if (commodityIds == null || commodityIds.length==0)
             return -1;
@@ -48,6 +51,7 @@ public class CommodityInfoServiceImpl implements CommodityInfoService{
             return commodityInfoDao.deleteByIds(commodityIds);
     }
 
+    @Override
     public CommodityInfo findById(Integer commodityId) {
         if (commodityId == null){
             return null;
@@ -56,6 +60,7 @@ public class CommodityInfoServiceImpl implements CommodityInfoService{
         }
     }
 
+    @Override
     public PageData findByIds(Integer pageIndex, Integer pageSize, Integer commodityType, Integer storeId, Integer categoryTwoId, String searchString, Integer isSales) {
         if (commodityType == null || storeId == null && categoryTwoId == null && searchString == null){
             return null;

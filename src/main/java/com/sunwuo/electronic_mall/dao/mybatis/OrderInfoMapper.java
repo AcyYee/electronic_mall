@@ -1,6 +1,7 @@
 package com.sunwuo.electronic_mall.dao.mybatis;
 
 import com.sunwuo.electronic_mall.entity.OrderInfo;
+import com.sunwuo.electronic_mall.vo.StoreInfoCountModel;
 
 public interface OrderInfoMapper {
     int deleteByPrimaryKey(Integer orderId);
@@ -14,4 +15,6 @@ public interface OrderInfoMapper {
     int updateByPrimaryKeySelective(OrderInfo record);
 
     int updateByPrimaryKey(OrderInfo record);
+
+    StoreInfoCountModel findCountModelByPrimaryKey(Integer storeId);
 }

@@ -1,5 +1,8 @@
 package com.sunwuo.electronic_mall.entity;
 
+/**
+ * @author acy 屋大维
+ */
 public class OrderItem {
 
     private Integer itemId;
@@ -13,6 +16,8 @@ public class OrderItem {
     private Integer shopCarId;
 
     private Integer itemCount;
+
+    private Integer itemWeight;
 
     private Integer itemType;
 
@@ -64,6 +69,14 @@ public class OrderItem {
 
     public void setItemCount(Integer itemCount) {
         this.itemCount = itemCount;
+    }
+
+    public Integer getItemWeight() {
+        return itemWeight;
+    }
+
+    public void setItemWeight(Integer itemWeight) {
+        this.itemWeight = itemWeight;
     }
 
     public Integer getItemType() {

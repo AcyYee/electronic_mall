@@ -1,5 +1,8 @@
 package com.sunwuo.electronic_mall.entity;
 
+/**
+ * @author acy 屋大维
+ */
 public class CommoditySpecification {
 
     private Integer specificationId;
@@ -9,6 +12,8 @@ public class CommoditySpecification {
     private Integer specificationCount;
 
     private Double specificationPrice;
+
+    private Integer specificationWeight;
 
     private Double activityPrice;
 
@@ -52,6 +57,14 @@ public class CommoditySpecification {
 
     public void setSpecificationPrice(Double specificationPrice) {
         this.specificationPrice = specificationPrice;
+    }
+
+    public Integer getSpecificationWeight() {
+        return specificationWeight;
+    }
+
+    public void setSpecificationWeight(Integer specificationWeight) {
+        this.specificationWeight = specificationWeight;
     }
 
     public Double getActivityPrice() {

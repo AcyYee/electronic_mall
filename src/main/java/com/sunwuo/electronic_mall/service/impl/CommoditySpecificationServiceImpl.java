@@ -20,8 +20,9 @@ public class CommoditySpecificationServiceImpl implements CommoditySpecification
 
     @Override
     public int addSpecification(CommoditySpecification commoditySpecification) {
-        if (commoditySpecification == null || commoditySpecification.isEmpty())
+        if (commoditySpecification == null || commoditySpecification.isEmpty()) {
             return -1;
+        }
         commoditySpecification.setCreateTime(TimeUtil.getDateTime(1));
         if (commoditySpecificationDao.insertSelective(commoditySpecification)>0){
             return commoditySpecificationDao.updateSortNumber(commoditySpecification.getSpecificationId(),commoditySpecification.getSpecificationId());
@@ -33,20 +34,23 @@ public class CommoditySpecificationServiceImpl implements CommoditySpecification
     @Override
     public int updateSpecification(CommoditySpecification commoditySpecification) {
 
-        if (commoditySpecification == null ||commoditySpecification.getCommodityId()==null)
+        if (commoditySpecification == null ||commoditySpecification.getCommodityId()==null) {
             return -1;
+        }
         return commoditySpecificationDao.updateByPrimaryKeySelective(commoditySpecification);
     }
 
     @Override
     public PageData getSpecifications(Integer commodityId, String searchString, Integer pageIndex, Integer pageSize) {
         PageData pageData = new PageData();
-        if (commodityId == null)
+        if (commodityId == null) {
             return null;
+        }
         Map<String,Object> map = new HashMap<>();
         map.put("commodityId",commodityId);
-        if(searchString != null)
-            map.put("searchString",searchString);
+        if(searchString != null) {
+            map.put("searchString", searchString);
+        }
         if (pageIndex != null){
             PageModel pageModel = new PageModel();
             pageModel.setPageIndex(pageIndex);
@@ -71,15 +75,17 @@ public class CommoditySpecificationServiceImpl implements CommoditySpecification
 
     @Override
     public int deleteSpecifications(int[] specificationIds) {
-        if (specificationIds == null || specificationIds.length <1)
+        if (specificationIds == null || specificationIds.length <1) {
             return -1;
+        }
         return commoditySpecificationDao.deleteByIds(specificationIds);
     }
 
     @Override
     public int topCommoditySpecification(Integer specificationId, Integer sortNumber) {
-        if (specificationId == null || sortNumber==null)
+        if (specificationId == null || sortNumber==null) {
             return -1;
+        }
         commoditySpecificationDao.updateSortNumbers(sortNumber);
         return commoditySpecificationDao.updateSortNumber(specificationId,1);
 
@@ -87,8 +93,9 @@ public class CommoditySpecificationServiceImpl implements CommoditySpecification
 
     @Override
     public int sortCommoditySpecification(Integer specificationId, Integer sortNumber) {
-        if (specificationId == null || sortNumber==null)
+        if (specificationId == null || sortNumber==null) {
             return -1;
+        }
         return commoditySpecificationDao.updateSortNumber(specificationId, sortNumber);
     }
 }

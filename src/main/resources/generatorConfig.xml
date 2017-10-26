@@ -45,11 +45,16 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
 
-        <table tableName="user_address_acy_t" domainObjectName="UserAddress"
+        <!--<table tableName="user_address_acy_t" domainObjectName="UserAddress"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
 
-    </context>
+        <table tableName="logistics_info_acy_t" domainObjectName="LogisticsInfo"
+            enableCountByExample="false" enableUpdateByExample="false"
+            enableDeleteByExample="false" enableSelectByExample="false"
+            selectByExampleQueryId="false"/>
+
+</context>
 
 </generatorConfiguration>  

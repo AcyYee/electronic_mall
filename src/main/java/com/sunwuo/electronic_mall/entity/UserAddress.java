@@ -1,13 +1,17 @@
 package com.sunwuo.electronic_mall.entity;
 
-import java.util.Date;
-
+/**
+ * @author acy 屋大维
+ */
 public class UserAddress {
+
     private Integer addressId;
 
     private Integer userId;
 
     private Integer isDelete;
+
+    private String provinceCode;
 
     private String addressContent;
 
@@ -49,6 +53,14 @@ public class UserAddress {
 
     public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public String getProvinceCode() {
+        return provinceCode;
+    }
+
+    public void setProvinceCode(String provinceCode) {
+        this.provinceCode = provinceCode;
     }
 
     public String getAddressContent() {

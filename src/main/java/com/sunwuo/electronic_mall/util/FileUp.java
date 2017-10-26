@@ -97,7 +97,7 @@ public class FileUp {
 
     private static boolean isTrueType(int type, String postfix) {
         if (type == IMAGE) {
-            if (!postfix.equals(".jpg") && !postfix.equals(".jpeg") && !postfix.equals(".png") && !postfix.equals(".ico") && !postfix.equals(".gif")) {
+            if (!".jpg".equals(postfix) && !".jpeg".equals(postfix) && !".png".equals(postfix) && !".ico".equals(postfix) && !".gif".equals(postfix)) {
                 return false;
             }
         } else if (type == AUDIO) {

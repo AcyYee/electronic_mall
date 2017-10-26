@@ -1,5 +1,8 @@
 package com.sunwuo.electronic_mall.entity;
 
+/**
+ * @author acy 屋大维
+ */
 public class StoreInfo {
 
     private Integer storeId;
@@ -21,6 +24,12 @@ public class StoreInfo {
     private String backgroundImage;
 
     private String storeImage;
+
+    private Integer maxWeight;
+
+    private Double minMailPrice;
+
+    private Double lessMailPrice;
 
     private Integer isBusiness;
 
@@ -140,6 +149,30 @@ public class StoreInfo {
 
     public void setStoreRemark(String storeRemark) {
         this.storeRemark = storeRemark == null ? null : storeRemark.trim();
+    }
+
+    public Integer getMaxWeight() {
+        return maxWeight;
+    }
+
+    public void setMaxWeight(Integer maxWeight) {
+        this.maxWeight = maxWeight;
+    }
+
+    public Double getMinMailPrice() {
+        return minMailPrice;
+    }
+
+    public void setMinMailPrice(Double minMailPrice) {
+        this.minMailPrice = minMailPrice;
+    }
+
+    public Double getLessMailPrice() {
+        return lessMailPrice;
+    }
+
+    public void setLessMailPrice(Double lessMailPrice) {
+        this.lessMailPrice = lessMailPrice;
     }
 
     public boolean isEmpty() {

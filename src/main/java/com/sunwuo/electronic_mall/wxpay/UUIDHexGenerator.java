@@ -84,13 +84,12 @@ public class UUIDHexGenerator {
      */
     public static void main(String[] args) {
         String id="";
-        UUIDHexGenerator uuid = UUIDHexGenerator.getInstance();
         /*
         for (int i = 0; i < 100; i++) {
             id = uuid.generate();
 
         }*/
-        id = uuid.generate();
+        id = UUIDHexGenerator.generate();
         System.out.println(id);
     }
 }

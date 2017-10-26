@@ -1,13 +1,19 @@
 package com.sunwuo.electronic_mall.entity;
 
+/**
+ *@author acy 屋大维
+ */
 public class LogisticsModel {
+
     private Integer modelId;
 
     private String deliveryArea;
 
-    private Double freeWeight;
+    private Integer freeWeight;
 
-    private Double beyondWeight;
+    private String provinceCode;
+
+    private Integer beyondWeight;
 
     private Double minPrice;
 
@@ -39,19 +45,27 @@ public class LogisticsModel {
         this.deliveryArea = deliveryArea == null ? null : deliveryArea.trim();
     }
 
-    public Double getFreeWeight() {
+    public Integer getFreeWeight() {
         return freeWeight;
     }
 
-    public void setFreeWeight(Double freeWeight) {
+    public void setFreeWeight(Integer freeWeight) {
         this.freeWeight = freeWeight;
     }
 
-    public Double getBeyondWeight() {
+    public String getProvinceCode() {
+        return provinceCode;
+    }
+
+    public void setProvinceCode(String provinceCode) {
+        this.provinceCode = provinceCode;
+    }
+
+    public Integer getBeyondWeight() {
         return beyondWeight;
     }
 
-    public void setBeyondWeight(Double beyondWeight) {
+    public void setBeyondWeight(Integer beyondWeight) {
         this.beyondWeight = beyondWeight;
     }
 

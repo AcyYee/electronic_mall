@@ -21,11 +21,7 @@ public interface UserAddressMapper {
 
     int deleteByIds(@Param("addressIds") Integer[] addressIds);
 
-    int updateSortNumber(@Param("addressIds") Integer addressIds, @Param("sortNumber") Integer sortNumber);
-
-    void updateSortNumbers(Integer sortNumber);
-
-    void updateNotDefault();
+    void updateNotDefault(Integer userId);
 
     void updateIsDefault(Integer addressId);
 

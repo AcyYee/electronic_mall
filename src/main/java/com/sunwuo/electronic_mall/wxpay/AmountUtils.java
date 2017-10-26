@@ -39,7 +39,7 @@ public class AmountUtils {
                                                                 // 或�??$的金�?
         int index = currency.indexOf(".");
         int length = currency.length();
-        Long amLong = 0l;
+        Long amLong = 0L;
         if (index == -1) {
             amLong = Long.valueOf(currency + "00");
         } else if (length - index >= 3) {

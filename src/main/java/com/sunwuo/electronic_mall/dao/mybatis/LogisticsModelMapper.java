@@ -28,4 +28,6 @@ public interface LogisticsModelMapper {
     int deleteByIds(@Param("modelIds") Integer[] modelIds);
 
     void updateSortNumbers(Integer sortNumber);
+
+    LogisticsModel findByProvinceCode(@Param("provinceCode") String provinceCode,@Param("companyId") Integer companyId);
 }

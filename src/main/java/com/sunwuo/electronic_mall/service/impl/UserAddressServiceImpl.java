@@ -30,13 +30,10 @@ public class UserAddressServiceImpl implements UserAddressService {
         userAddress.setCreateTime(TimeUtil.getDateTime(1));
         if(userAddressMapper.insert(userAddress)>=1){
             if (userAddress .getAddressType() == 1){
-                userInfoMapper.updateDefaultAddress(userAddress.getAddressId());
-                userAddressMapper.updateNotDefault();
+                userAddressMapper.updateNotDefault(userAddress.getUserId());
                 userAddressMapper.updateIsDefault(userAddress.getAddressId());
-                userAddressMapper.updateSortNumbers(userAddress.getAddressId());
-                userAddressMapper.updateSortNumber(userAddress.getAddressId(),1);
             }
-            return userAddressMapper.updateSortNumber(userAddress.getAddressId(),userAddress.getAddressId());
+            return userInfoMapper.updateDefaultAddress(userAddress.getAddressId(),userAddress.getUserId());
         }
         return 0;
     }
@@ -77,10 +74,9 @@ public class UserAddressServiceImpl implements UserAddressService {
             return -1;
         } else {
             if (userAddress .getAddressType() == 1){
-                userInfoMapper.updateDefaultAddress(userAddress.getAddressId());
-                userAddressMapper.updateNotDefault();
-                userAddressMapper.updateSortNumbers(userAddress.getSortNumber());
-                userAddressMapper.updateSortNumber(userAddress.getAddressId(),1);
+                userInfoMapper.updateDefaultAddress(userAddress.getAddressId(),userAddress.getUserId());
+                userAddressMapper.updateNotDefault(userAddress.getUserId());
+                userAddressMapper.updateNotDefault(userAddress.getUserId());
             }
             return userAddressMapper.updateByPrimaryKeySelective(userAddress);
         }

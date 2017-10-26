@@ -18,8 +18,9 @@ public class StoreProjectServiceImpl implements StoreProjectService {
 
     @Override
     public int updateProject(StoreProject storeProject) {
-        if (storeProject == null || storeProject.getProgramId() == null || storeProject.isEmpty())
+        if (storeProject == null || storeProject.getProgramId() == null || storeProject.isEmpty()) {
             return -1;
+        }
         return storeProjectMapper.updateProject(storeProject);
     }
 }

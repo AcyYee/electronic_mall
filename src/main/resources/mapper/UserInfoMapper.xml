@@ -61,4 +61,11 @@
         </set>
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
+
+    <update id="updateDefaultAddress" parameterType="Integer">
+        update t_user_info
+        set default_address = #{defaultAddress,jdbcType=INTEGER},
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
 </mapper>

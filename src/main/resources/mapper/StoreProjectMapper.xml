@@ -8,7 +8,7 @@
         <result column="mch_secret" jdbcType="VARCHAR" property="mchSecret"/>
         <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
         <result column="app_secret" jdbcType="VARCHAR" property="appSecret"/>
-        <result column="storeid" jdbcType="INTEGER" property="storeId"/>
+        <result column="store_id" jdbcType="INTEGER" property="storeId"/>
 
     </resultMap>
 
@@ -20,7 +20,7 @@
   </select>
 
     <select id="findByInfoId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select * from store_project_hyj_t where storeid=#{storeId}
+        select * from store_project_hyj_t where store_id=#{storeId}
     </select>
 
     <insert id="insertStoreProject" parameterType="StoreProject">
@@ -42,7 +42,7 @@
                 create_time,
             </if>
             <if test="storeId != null">
-                storeid,
+                store_id,
             </if>
 
         </trim>
