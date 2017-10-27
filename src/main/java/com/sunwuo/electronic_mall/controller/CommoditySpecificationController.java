@@ -4,6 +4,8 @@ import com.sunwuo.electronic_mall.entity.CommoditySpecification;
 import com.sunwuo.electronic_mall.service.CommoditySpecificationService;
 import com.sunwuo.electronic_mall.util.ResultObject;
 import com.sunwuo.electronic_mall.vo.PageData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,12 +13,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author acy 屋大维
+ */
 @RestController
 @RequestMapping("commodity/specification")
 public class CommoditySpecificationController {
 
+    private final CommoditySpecificationService commoditySpecificationService;
+
+    private Logger logger = LoggerFactory.getLogger(CommoditySpecificationController.class);
+
     @Autowired
-    private CommoditySpecificationService commoditySpecificationService;
+    public CommoditySpecificationController(CommoditySpecificationService commoditySpecificationService) {
+        this.commoditySpecificationService = commoditySpecificationService;
+    }
 
     /**
      * 添加规格
@@ -26,6 +37,9 @@ public class CommoditySpecificationController {
     @RequestMapping("add")
     public ResultObject add(CommoditySpecification commoditySpecification, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin","*");
+        System.out.println("你好");
+        logger.info("你好");
+        logger.info(commoditySpecification.toString());
         return ResultObject.returnResultObject(commoditySpecificationService.addSpecification(commoditySpecification),commoditySpecification);
     }
 

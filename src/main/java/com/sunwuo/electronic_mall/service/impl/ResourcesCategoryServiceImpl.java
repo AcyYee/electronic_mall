@@ -12,43 +12,54 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author acy 屋大维
+ */
 @Service
 public class ResourcesCategoryServiceImpl implements ResourcesCategoryService {
 
+    private final ResourcesCategoryMapper resourcesCategoryDao;
+
     @Autowired
-    private ResourcesCategoryMapper resourcesCategoryDao;
+    public ResourcesCategoryServiceImpl(ResourcesCategoryMapper resourcesCategoryDao) {
+        this.resourcesCategoryDao = resourcesCategoryDao;
+    }
 
     @Override
     public int addResourcesCategory(ResourcesCategory resourcesCategory) {
-        if (resourcesCategory == null || resourcesCategory.notEmpty())
+        if (resourcesCategory == null || resourcesCategory.notEmpty()) {
             return -1;
+        }
         resourcesCategory.setCreateTime(TimeUtil.getDateTime(1));
         if (resourcesCategoryDao.insertSelective(resourcesCategory)>0){
             return resourcesCategoryDao.updateSortNumber(resourcesCategory.getCategoryId(),resourcesCategory.getCategoryId());
-        }else
+        }else {
             return 0;
+        }
     }
 
     @Override
     public int updateResourcesCategory(ResourcesCategory resourcesCategory) {
-        if (resourcesCategory == null || resourcesCategory.isEmpty())
+        if (resourcesCategory == null || resourcesCategory.isEmpty()) {
             return -1;
+        }
         return resourcesCategoryDao.updateByPrimaryKeySelective(resourcesCategory);
     }
 
     @Override
     public int deleteByIds(Integer[] categoryIds) {
-        if (categoryIds == null || categoryIds.length<1)
+        if (categoryIds == null || categoryIds.length<1) {
             return -1;
+        }
         return resourcesCategoryDao.deleteByIds(categoryIds);
     }
 
     @Override
     public ResourcesCategory getResourcesCategory(Integer categoryId) {
-        if (categoryId == null || categoryId < 0)
+        if (categoryId == null || categoryId < 0) {
             return null;
-        else
-            return resourcesCategoryDao.selectByPrimaryKey(categoryId);
+        }
+        return resourcesCategoryDao.selectByPrimaryKey(categoryId);
     }
 
     @Override
@@ -71,16 +82,18 @@ public class ResourcesCategoryServiceImpl implements ResourcesCategoryService {
 
     @Override
     public int topResourcesCategory(Integer categoryId, Integer sortNumber) {
-        if (categoryId == null || sortNumber == null)
+        if (categoryId == null || sortNumber == null) {
             return -1;
+        }
         resourcesCategoryDao.updateSortNumbers(sortNumber);
         return resourcesCategoryDao.updateSortNumber(categoryId,1);
     }
 
     @Override
     public int sortResourcesCategory(Integer categoryId, Integer sortNumber) {
-        if (categoryId == null || sortNumber == null)
+        if (categoryId == null || sortNumber == null) {
             return -1;
+        }
         return resourcesCategoryDao.updateSortNumber(categoryId,sortNumber);
     }
 }

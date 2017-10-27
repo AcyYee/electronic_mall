@@ -16,11 +16,15 @@ import java.util.Map;
 @Service("userAddressService")
 public class UserAddressServiceImpl implements UserAddressService {
 
-    @Autowired
-    private UserAddressMapper userAddressMapper;
+    private final UserAddressMapper userAddressMapper;
+
+    private final UserInfoMapper userInfoMapper;
 
     @Autowired
-    private UserInfoMapper userInfoMapper;
+    public UserAddressServiceImpl(UserAddressMapper userAddressMapper, UserInfoMapper userInfoMapper) {
+        this.userAddressMapper = userAddressMapper;
+        this.userInfoMapper = userInfoMapper;
+    }
 
     @Override
     public int addAddress(UserAddress userAddress) {

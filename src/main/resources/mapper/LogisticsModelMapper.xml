@@ -49,7 +49,7 @@
   <select id="findModels" parameterType="Map" resultMap="BaseResultMap">
     select
     lm.model_id, lm.delivery_area, lm.free_weight, lm.beyond_weight, lm.min_price, lm.beyond_price, lm.is_delete,
-    lm.create_time, lm.sort_number, lm.company_id, lc.company_name
+    lm.create_time, lm.sort_number, lm.company_id, lc.company_name,lm.province_code
     from logistics_model_acy_t lm LEFT JOIN logistics_company_acy_t lc on lm.company_id = lc.company_id
     where lm.is_delete = 0
     <if test="companyId">
@@ -197,10 +197,10 @@
     where model_id = #{modelId,jdbcType=INTEGER}
   </update>
 
-  <select id="findByProvinceCode" parameterType="String" resultMap="BaseResultMap">
+  <select id="findByProvinceCode" resultMap="BaseResultMap">
     SELECT model_id, free_weight, beyond_weight, min_price, beyond_price, province_code
     FROM logistics_model_acy_t
-    where is_delete = 0 AND province_code LIKE concat('%',#{provinceCode},'%') and company_id = #{companyId}
+    where is_delete = 0 AND province_code LIKE concat('%',#{provinceCode},'%') and company_id = #{companyId,jdbcType=INTEGER}
   </select>
 
   <update id="deleteByIds">

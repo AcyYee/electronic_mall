@@ -21,28 +21,32 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        store_id, store_name, store_discount, is_discount, is_delete, store_turnover, store_location,
+        store_id, store_name, store_discount, is_discount, is_delete, store_turnover, store_location,store_key,
         background_image, store_image, is_business, store_remark,max_weight,min_mail_price,less_mail_price
     </sql>
 
-    <select id="storeInfoList" resultMap="BaseResultMap">
+    <select id="findStoreCounts">
         select
-        <include refid="Base_Column_List"/>
+        count(store_id)
         from store_info_acy_t
+        WHERE is_delete = 0
+        <if test="storeType != null">
+            AND store_type = #{storeType}
+        </if>
     </select>
 
-    <select id="storeLogin" resultMap="BaseResultMap" parameterType="StoreInfo">
+    <select id="findStores" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from store_info_acy_t
-        <where>
-            <if test="storeType!=null">
-                store_type=#{storeType},
-            </if>
-            <if test="storeAdmin!=null">
-                store_admin=#{storeAdmin},
-            </if>
-        </where>
+        WHERE is_delete = 0
+        <if test="storeType != null">
+            AND store_type = #{storeType}
+        </if>
+        ORDER BY store_id
+        <if test="pageModel != null">
+            limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
+        </if>
     </select>
 
     <resultMap id="CountModelResultMap" type="com.sunwuo.electronic_mall.vo.StoreInfoCountModel">
@@ -60,9 +64,9 @@
 
     <select id="findCountModelByPrimaryKey" parameterType="java.lang.Integer" resultMap="CountModelResultMap">
         select
-        store_discount,min_mail_price,less_mail_price,is_discount,max_weight,store_key,appid,store_name,mch_id,mch_secret
-        from store_info_acy_t
-        where store_id = #{storeId,jdbcType=INTEGER}
+        si.store_discount,si.min_mail_price,si.less_mail_price,si.is_discount,si.max_weight,si.store_key,sp.appid,si.store_name,sp.mch_id,sp.mch_secret
+        from store_info_acy_t si LEFT JOIN store_project_hyj_t sp on si.store_id = sp.store_id
+        where si.store_id = #{storeId,jdbcType=INTEGER}
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -92,6 +96,9 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="storeName != null">
                 store_name,
+            </if>
+            <if test="storeKey != null">
+                store_key,
             </if>
             <if test="storeDiscount != null">
                 store_discount,
@@ -133,6 +140,9 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="storeName != null">
                 #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeKey != null">
+                #{storeKey,jdbcType=VARCHAR},
             </if>
             <if test="storeDiscount != null">
                 #{storeDiscount,jdbcType=DECIMAL},
@@ -236,6 +246,20 @@
         is_business = #{isBusiness,jdbcType=INTEGER},
         store_remark = #{storeRemark,jdbcType=VARCHAR}
         where store_id = #{storeId,jdbcType=INTEGER}
+    </update>
+
+    <update id="deleteByIds">
+        update store_info_acy_t set is_delete = 1 where store_id IN
+        <foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")">
+            #{storeId}
+        </foreach>
+    </update>
+
+    <update id="updateType">
+        update store_info_acy_t set is_delete = 1 where store_id IN
+        <foreach item="storeId" index="index" collection="storeIds" open="(" separator="," close=")">
+            #{storeId}
+        </foreach>
     </update>
 
 </mapper>

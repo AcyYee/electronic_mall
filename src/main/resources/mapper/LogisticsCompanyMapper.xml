@@ -12,12 +12,13 @@
     <result column="sort_number" jdbcType="INTEGER" property="sortNumber" />
     <result column="store_id" jdbcType="INTEGER" property="storeId" />
     <result column="store_type" jdbcType="INTEGER" property="storeType" />
+    <result column="company_code" jdbcType="VARCHAR" property="companyCode" />
     <result column="company_principal" jdbcType="VARCHAR" property="companyPrincipal" />
   </resultMap>
 
   <sql id="Base_Column_List">
     company_id, company_name, company_phone, create_time, company_address, is_delete, 
-    company_principal, sort_number, store_id, store_type
+    company_principal, sort_number, store_id, store_type,company_code
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -78,6 +79,9 @@
       <if test="companyName != null">
         company_name,
       </if>
+      <if test="companyCode != null">
+        company_code,
+      </if>
       <if test="companyPhone != null">
         company_phone,
       </if>
@@ -106,6 +110,9 @@
       </if>
       <if test="companyName != null">
         #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null">
+        #{companyCode,jdbcType=VARCHAR},
       </if>
       <if test="companyPhone != null">
         #{companyPhone,jdbcType=VARCHAR},
@@ -136,6 +143,9 @@
     <set>
       <if test="companyName != null">
         company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null">
+        company_code = #{companyCode,jdbcType=VARCHAR},
       </if>
       <if test="companyPhone != null">
         company_phone = #{companyPhone,jdbcType=VARCHAR},

@@ -10,27 +10,36 @@ import com.sunwuo.electronic_mall.service.UserInfoService;
 import com.sunwuo.electronic_mall.util.HttpSend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
 
-@Component
+/**
+ * @author acy 屋大维
+ */
+@Service
 public class UserInfoServiceImpl implements UserInfoService {
 	
-	@Autowired
-	private UserInfoMapper userInfoMapper;
+	private final UserInfoMapper userInfoMapper;
+
+	private final StoreProjectMapper storeProjectMapper;
 
 	@Autowired
-	private StoreProjectMapper storeProjectMapper;
+	public UserInfoServiceImpl(UserInfoMapper userInfoMapper, StoreProjectMapper storeProjectMapper) {
+		this.userInfoMapper = userInfoMapper;
+		this.storeProjectMapper = storeProjectMapper;
+	}
 
 	@Override
 	public UserInfo add(String js_code ,Integer storeId) {
-		if (js_code == null || js_code.equals("")|| storeId == null){
+		if (js_code == null || "".equals(js_code)|| storeId == null){
 			return null;
 		}
 		StoreProject storeProject = storeProjectMapper.findByInfoId(storeId);
-		if (storeProject == null)
+		if (storeProject == null) {
 			return null;
+		}
 		ObjectMapper mapper = new ObjectMapper();
 		String url = WXConfig.SP_GET_OPENID;
 		url = url.replaceFirst("APPID", storeProject.getAppId());
@@ -38,7 +47,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 		url = url.replaceFirst("JSCODE", js_code);
 		System.out.println(url);
 		String json =  HttpSend.sendGet(url, "");
-
 		UserInfo userInfo;
 		try {
 			HashMap map = mapper.readValue(json, HashMap.class);

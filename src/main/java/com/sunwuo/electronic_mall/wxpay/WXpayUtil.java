@@ -29,21 +29,16 @@ import org.dom4j.io.SAXReader;
 public class WXpayUtil {
 
     private static final String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-    private static final String device_info = "WEB";
     private static String nonce_str = "";
     private static String sign = "";
-    private static final String sign_type = "MD5";
-    private static final String fee_type = "CNY";
-    private static String spbill_create_ip = "";
-    private static String goods_tag = "WXG";
-    private static final String notify_url = "https://www.xxxxxxx.com/xxxxxxx/notify";
+    private static final String notify_url = "https://www.tongzhuhe.com/elMall/notify";
     private static final String trade_type = "JSAPI";
-    private static String limit_pay = "no_credit";
-    
+
     public static Map<String,NotifyImple> notifyimple=new HashMap<>();
 
     public static Object payrequest(String body, String out_trade_no, String total_fee, 
-    		String openid, String addr,String notifyName,String appid,String mch_id,String key,NotifyImple notify) {
+    		String openid, String addr,String notifyName,String appid
+            ,String mch_id,String key,Integer orderId,NotifyImple notify) {
     	
         nonce_str = getUUID();
         Map<String, String> params = new HashMap<String, String>();
@@ -67,9 +62,11 @@ public class WXpayUtil {
         String respXml = MessageUtil.messageToXML(pay);
         respXml = respXml.replace("__", "_");
         String result = PayUtil.httpRequest(url, "POST", respXml);
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>(10);
+        map.put("orderId",String.valueOf(orderId));
+        map.put("orderTag",out_trade_no);
         InputStream in = new ByteArrayInputStream(result.getBytes());
-        // 读取输入�??
+        // 读取输入
         SAXReader reader = new SAXReader();
         reader.setEncoding("GB18030");
         org.dom4j.Document document = null;
@@ -78,9 +75,9 @@ public class WXpayUtil {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-        // 得到xml根元�??
+        // 得到xml根元素
         if (document == null){
-            return "xml为空";
+            return map;
         }
         Element root = document.getRootElement();
         // 得到根元素的�??有子节点
@@ -91,7 +88,7 @@ public class WXpayUtil {
         // 返回信息
         String return_code = map.get("return_code");//返回状�?�码
         String return_msg = map.get("return_msg");//返回信息
-        if (return_code.equals("SUCCESS")) {
+        if ("SUCCESS".equals(return_code)) {
         	if(!notifyimple.containsKey(notifyName))
         	{
         		notifyimple.put(notifyName, notify);

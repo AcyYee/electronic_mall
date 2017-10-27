@@ -116,19 +116,23 @@ public class CommoditySpecification {
     }
 
     @Override
-    public String
-    toString() {
+    public String toString() {
         return "CommoditySpecification{" +
                 "specificationId=" + specificationId +
                 ", specificationName='" + specificationName + '\'' +
                 ", specificationCount=" + specificationCount +
                 ", specificationPrice=" + specificationPrice +
+                ", specificationWeight=" + specificationWeight +
+                ", activityPrice=" + activityPrice +
+                ", imagePath='" + imagePath + '\'' +
                 ", commodityId=" + commodityId +
+                ", createTime='" + createTime + '\'' +
+                ", sortNumber=" + sortNumber +
                 ", isDelete=" + isDelete +
                 '}';
     }
 
-    public boolean isEmpty() {
-        return specificationName==null || specificationPrice == null ||  commodityId == null;
+    public boolean notEmpty() {
+        return specificationName==null || specificationPrice == null ||  commodityId == null || specificationWeight == null;
     }
 }

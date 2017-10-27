@@ -110,10 +110,12 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public OrderItem findOrderItem(Integer itemId) {
-        if (itemId == null || itemId <1)
+        if (itemId == null || itemId <1) {
             return null;
-        else
+        }
+        else {
             return orderItemDao.selectByPrimaryKey(itemId);
+        }
     }
 
 }

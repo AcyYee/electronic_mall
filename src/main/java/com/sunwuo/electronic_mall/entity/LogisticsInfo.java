@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class LogisticsInfo {
-    private Integer logistics;
+    private Integer logisticsId;
 
     private Integer modelId;
 
@@ -28,12 +28,12 @@ public class LogisticsInfo {
 
     private Integer logisticsType;
 
-    public Integer getLogistics() {
-        return logistics;
+    public Integer getLogisticsId() {
+        return logisticsId;
     }
 
-    public void setLogistics(Integer logistics) {
-        this.logistics = logistics;
+    public void setLogisticsId(Integer logisticsId) {
+        this.logisticsId = logisticsId;
     }
 
     public Integer getModelId() {
@@ -122,5 +122,9 @@ public class LogisticsInfo {
 
     public void setLogisticsType(Integer logisticsType) {
         this.logisticsType = logisticsType;
+    }
+
+    public boolean isEmpty() {
+        return logisticsTag == null || logisticsId == null;
     }
 }

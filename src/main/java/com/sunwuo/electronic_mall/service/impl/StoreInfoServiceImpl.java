@@ -8,12 +8,20 @@ import com.sunwuo.electronic_mall.entity.StoreInfo;
 import com.sunwuo.electronic_mall.entity.StoreProject;
 import com.sunwuo.electronic_mall.service.StoreInfoService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.sunwuo.electronic_mall.util.MD5Util;
 import com.sunwuo.electronic_mall.util.TimeUtil;
+import com.sunwuo.electronic_mall.vo.PageData;
+import com.sunwuo.electronic_mall.vo.PageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author acy 屋大维
+ */
 @Service("storeInfoService")
 public class StoreInfoServiceImpl implements StoreInfoService {
 
@@ -51,6 +59,7 @@ public class StoreInfoServiceImpl implements StoreInfoService {
             storeInfo.setCreateTime(createTime);
             storeProject.setCreateTime(createTime);
             adminInfo.setCreateTime(createTime);
+            adminInfo.setAdminPassword(MD5Util.encoderByMd5(adminInfo.getAdminPassword()));
             if (storeInfoDao.insertSelective(storeInfo)>0){
                 storeProject.setStoreId(storeInfo.getStoreId());
                 adminInfo.setStoreId(storeInfo.getStoreId());
@@ -66,33 +75,47 @@ public class StoreInfoServiceImpl implements StoreInfoService {
      * 获取所有入住的商铺信息
      */
     @Override
-    public List<StoreProject> getStoreProject() {
-
-        return storeProjectDao.storeProjectList();
-    }
-
-    @Override
-    public StoreInfo storeLogin(StoreInfo storeInfo) {
-        return storeInfoDao.storeLogin(storeInfo);
-    }
-
-    @Override
     public StoreProject getStoreInfoByAppid(String appid) {
+        if (appid == null || "".equals(appid)){
+            return null;
+        }
         return storeProjectDao.getStoreInfoByAppid(appid);
     }
 
+    @Override
+    public PageData findStores(Integer storeType, Integer pageIndex, Integer pageSize) {
+        PageData pageData = new PageData();
+        Map<String, Object> map = new HashMap<>(2);
+        if (storeType != null){
+            map.put("storeType",storeType);
+        }if (pageIndex != null){
+            PageModel pageModel = new PageModel();
+            pageModel.setPageIndex(pageIndex);
+            pageModel.setPageSize(pageSize);
+            pageModel.setRecordCount(storeInfoDao.findStoreCounts(map));
+            pageData.setPageModel(pageModel);
+            map.put("pageModel",pageModel);
+            pageData.setModelData(storeInfoDao.findStores(map));
+        }else {
+            pageData.setModelData(storeInfoDao.findStores(map));
+        }
+        return pageData;
+    }
 
+    @Override
+    public int deleteStoreINFOS(int[] storeInfoIds) {
+        if (storeInfoIds == null || storeInfoIds.length < 1){
+            return -1;
+        }
+        return storeInfoDao.deleteByIds(storeInfoIds);
+    }
 
-//    @Override
-//    public int addStore(StoreInfo storeInfo) {
-//        if(storeInfo==null||!storeInfo.isEmpty()){
-//            return -1;
-//        }
-//        Integer result = storeInfoDao.insert(storeInfo);
-//        if (result<1){
-//            return -1;
-//        }else {
-//            return 1;
-//        }
-//    }
+    @Override
+    public int updateType(int[] storeInfoIds, Integer storeType) {
+        if (storeInfoIds == null || storeInfoIds.length < 1){
+            return -1;
+        }
+        return storeInfoDao.updateType(storeInfoIds,storeType);
+    }
+
 }

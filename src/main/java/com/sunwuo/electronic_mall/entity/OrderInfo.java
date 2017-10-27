@@ -172,4 +172,26 @@ public class OrderInfo {
         this.isDelete = isDelete;
     }
 
+    @Override
+    public String toString() {
+        return "OrderInfo{" +
+                "orderId=" + orderId +
+                ", orderTag='" + orderTag + '\'' +
+                ", userId=" + userId +
+                ", addressId=" + addressId +
+                ", createType=" + createType +
+                ", logisticsId=" + logisticsId +
+                ", mailPrice=" + mailPrice +
+                ", allPrice=" + allPrice +
+                ", allowPrice=" + allowPrice +
+                ", payPrice=" + payPrice +
+                ", createTime='" + createTime + '\'' +
+                ", payTime='" + payTime + '\'' +
+                ", orderType=" + orderType +
+                ", orderRemark='" + orderRemark + '\'' +
+                ", wxAddressInfo='" + wxAddressInfo + '\'' +
+                ", storeId=" + storeId +
+                ", isDelete=" + isDelete +
+                '}';
+    }
 }

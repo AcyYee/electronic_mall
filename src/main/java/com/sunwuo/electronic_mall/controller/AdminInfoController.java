@@ -44,6 +44,8 @@ public class AdminInfoController {
         }
     }
 
+//    @RequestMapping("")
+
     /**
      * 测试接口
      */

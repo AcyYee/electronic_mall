@@ -1,6 +1,7 @@
 package com.sunwuo.electronic_mall.dao.mybatis;
 
 import com.sunwuo.electronic_mall.entity.OrderItem;
+import com.sunwuo.electronic_mall.vo.OrderItemModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface OrderItemMapper {
 
     int findItemCounts(Map<String, Object> map);
 
-    List<OrderItem> findItems(Map<String, Object> map);
+    List<OrderItemModel> findItems(Map<String, Object> map);
 
     OrderItem findBySpecificationAndShopCar(@Param("specificationId") Integer specificationId,@Param("shopCarId") Integer shopCarId);
 

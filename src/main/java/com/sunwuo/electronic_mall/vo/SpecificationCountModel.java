@@ -8,6 +8,8 @@ public class SpecificationCountModel {
 
     private Double activityPrice;
 
+    private Integer specificationCount;
+
     private Integer isDiscount;
 
     private Integer specificationWeight;
@@ -38,6 +40,14 @@ public class SpecificationCountModel {
 
     public void setActivityPrice(Double activityPrice) {
         this.activityPrice = activityPrice;
+    }
+
+    public Integer getSpecificationCount() {
+        return specificationCount;
+    }
+
+    public void setSpecificationCount(Integer specificationCount) {
+        this.specificationCount = specificationCount;
     }
 
     public Integer getSpecificationWeight() {

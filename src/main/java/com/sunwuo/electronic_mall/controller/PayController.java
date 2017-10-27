@@ -1,8 +1,6 @@
 package com.sunwuo.electronic_mall.controller;
 
-import com.sunwuo.electronic_mall.service.OrderInfoService;
 import com.sunwuo.electronic_mall.wxpay.WXpayUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

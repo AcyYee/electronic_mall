@@ -16,6 +16,7 @@
         <result column="pay_time" jdbcType="TIMESTAMP" property="payTime"/>
         <result column="order_type" jdbcType="INTEGER" property="orderType"/>
         <result column="order_remark" jdbcType="VARCHAR" property="orderRemark"/>
+        <result column="wx_address_info" jdbcType="VARCHAR" property="wxAddressInfo"/>
         <result column="store_id" jdbcType="INTEGER" property="storeId"/>
         <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
     </resultMap>
@@ -23,7 +24,7 @@
     <sql id="Base_Column_List">
     order_id, order_tag, user_id, address_id, create_type, logistics_id, mail_price, 
     all_price, allow_price, pay_price, create_time, pay_time, order_type, order_remark, 
-    store_id, is_delete
+    store_id, is_delete, wx_address_info
   </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -33,27 +34,104 @@
         where order_id = #{orderId,jdbcType=INTEGER}
     </select>
 
+    <select id="selectByTag" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_info_acy_t
+        where order_tag = #{orderTag,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findInfoCount" resultType="Integer">
+        select
+        COUNT(order_id)
+        from order_info_acy_t
+        where is_delete = #{isDelete}
+        <if test="orderType != null">
+            AND order_type = #{orderType}
+        </if>
+        <if test="storeId != null">
+            AND store_id = #{storeId}
+        </if>
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="timeType == 1">
+            AND create_time BETWEEN #{startTime} AND #{endTime}
+        </if>
+        <if test="timeType == 2">
+            AND pay_time BETWEEN #{startTime} AND #{endTime}
+        </if>
+    </select>
+
+    <resultMap id="ViewListResultMap" type="com.sunwuo.electronic_mall.vo.OrderInfoModel">
+        <id column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="order_tag" jdbcType="VARCHAR" property="orderTag"/>
+        <result column="order_tag" jdbcType="VARCHAR" property="orderTag"/>
+        <result column="mail_price" jdbcType="DECIMAL" property="mailPrice"/>
+        <result column="pay_price" jdbcType="DECIMAL" property="payPrice"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="pay_time" jdbcType="TIMESTAMP" property="payTime"/>
+        <result column="order_type" jdbcType="INTEGER" property="orderType"/>
+        <result column="wx_address_info" jdbcType="VARCHAR" property="wxAddressInfo"/>
+        <result column="store_id" jdbcType="INTEGER" property="storeId"/>
+        <result column="logistics_id" jdbcType="INTEGER" property="logisticsId" />
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+        <result column="company_name" jdbcType="INTEGER" property="companyName"/>
+        <result column="company_code" jdbcType="INTEGER" property="companyCode"/>
+    </resultMap>
+
+    <select id="findINFOS" resultMap="ViewListResultMap">
+        select
+        oiat.order_id,oiat.order_tag,oiat.pay_price,oiat.order_type,oiat.create_time,oiat.mail_price,oiat.create_time,oiat.store_id,oiat.wx_address_info,lcat.company_id,lcat.company_name,lcat.company_code,oiat.orderId,oiat.logistics_id
+        from order_info_acy_t oiat
+        LEFT JOIN logistics_info_acy_t liat on oiat.logistics_id = liat.logistics_id
+        LEFT JOIN logistics_model_acy_t lmat on liat.model_id = lmat.model_id
+        LEFT JOIN logistics_company_acy_t lcat on lmat.company_id = lcat.company_id
+        where oiat.is_delete = #{isDelete}
+        <if test="orderType != null">
+            AND oiat.order_type = #{orderType}
+        </if>
+        <if test="storeId != null">
+            AND oiat.store_id = #{storeId}
+        </if>
+        <if test="userId != null">
+            AND oiat.user_id = #{userId}
+        </if>
+        <if test="timeType == 1">
+            AND oiat.create_time BETWEEN #{storeTime} AND #{endTime}
+        </if>
+        <if test="timeType == 2">
+            AND oiat.pay_time BETWEEN #{storeTime} AND #{endTime}
+        </if>
+        ORDER BY oiat.order_id DESC
+        <if test="pageModel != null">
+            limit #{pageModel.firstLimitParam} , #{pageModel.pageSize}
+        </if>
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from order_info_acy_t
     where order_id = #{orderId,jdbcType=INTEGER}
   </delete>
 
-    <insert id="insert" parameterType="com.sunwuo.electronic_mall.entity.OrderInfo">
+    <insert id="insert" parameterType="com.sunwuo.electronic_mall.entity.OrderInfo" useGeneratedKeys="true"
+            keyColumn="order_id" keyProperty="orderId">
     insert into order_info_acy_t (order_id, order_tag, user_id, 
       address_id, create_type, logistics_id, 
       mail_price, all_price, allow_price, 
       pay_price, create_time, pay_time, 
       order_type, order_remark, store_id, 
-      is_delete)
+      is_delete, wx_address_info)
     values (#{orderId,jdbcType=INTEGER}, #{orderTag,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
       #{addressId,jdbcType=INTEGER}, #{createType,jdbcType=INTEGER}, #{logisticsId,jdbcType=INTEGER}, 
       #{mailPrice,jdbcType=DECIMAL}, #{allPrice,jdbcType=DECIMAL}, #{allowPrice,jdbcType=DECIMAL}, 
       #{payPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
       #{orderType,jdbcType=INTEGER}, #{orderRemark,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, 
-      #{isDelete,jdbcType=INTEGER})
+      #{isDelete,jdbcType=INTEGER}, #{wxAddressInfo,jdbcType=VARCHAR})
   </insert>
 
-    <insert id="insertSelective" parameterType="com.sunwuo.electronic_mall.entity.OrderInfo">
+    <insert id="insertSelective" parameterType="com.sunwuo.electronic_mall.entity.OrderInfo" useGeneratedKeys="true"
+            keyColumn="order_id" keyProperty="orderId">
         insert into order_info_acy_t
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orderId != null">
@@ -97,6 +175,9 @@
             </if>
             <if test="orderRemark != null">
                 order_remark,
+            </if>
+            <if test="wxAddressInfo != null">
+                wx_address_info,
             </if>
             <if test="storeId != null">
                 store_id,
@@ -147,6 +228,9 @@
             </if>
             <if test="orderRemark != null">
                 #{orderRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="wxAddressInfo != null">
+                #{wxAddressInfo,jdbcType=VARCHAR},
             </if>
             <if test="storeId != null">
                 #{storeId,jdbcType=INTEGER},
@@ -199,6 +283,9 @@
             <if test="orderRemark != null">
                 order_remark = #{orderRemark,jdbcType=VARCHAR},
             </if>
+            <if test="wxAddressInfo != null">
+                wx_address_info = #{wxAddressInfo,jdbcType=VARCHAR},
+            </if>
             <if test="storeId != null">
                 store_id = #{storeId,jdbcType=INTEGER},
             </if>
@@ -224,10 +311,19 @@
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       order_type = #{orderType,jdbcType=INTEGER},
       order_remark = #{orderRemark,jdbcType=VARCHAR},
+      wx_address_info = #{wxAddressInfo,jdbcType=VARCHAR},
       store_id = #{storeId,jdbcType=INTEGER},
       is_delete = #{isDelete,jdbcType=INTEGER}
     where order_id = #{orderId,jdbcType=INTEGER}
   </update>
+
+    <update id="updatePayById">
+        update order_info_acy_t set order_type = 2 ,pay_time = #{payTime} where order_id = #{orderId}
+    </update>
+
+    <update id="updatePayByTag">
+        update order_info_acy_t set order_type = 2 ,pay_time = #{payTime} where model_id = #{orderTag}
+    </update>
 
     <update id="deleteByIds">
         update order_info_acy_t set is_delete = 1 where order_id in
@@ -235,5 +331,58 @@
             #{orderId}
         </foreach>
     </update>
+
+    <update id="payManual">
+        update order_info_acy_t set order_type = 2 ,pay_time = #{dateTime} where order_id in
+        <foreach close=")" collection="orderIds" index="index" item="orderId" open="(" separator=",">
+            #{orderId}
+        </foreach>
+    </update>
+
+    <resultMap id="ViewResultMap" type="com.sunwuo.electronic_mall.vo.OrderInfoViewModel">
+        <id column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="order_tag" jdbcType="VARCHAR" property="orderTag"/>
+        <result column="order_remark" jdbcType="VARCHAR" property="orderRemark"/>
+        <result column="mail_price" jdbcType="DECIMAL" property="mailPrice"/>
+        <result column="pay_price" jdbcType="DECIMAL" property="payPrice"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="pay_time" jdbcType="TIMESTAMP" property="payTime"/>
+        <result column="order_type" jdbcType="INTEGER" property="orderType"/>
+        <result column="wx_address_info" jdbcType="VARCHAR" property="wxAddressInfo"/>
+        <result column="store_id" jdbcType="INTEGER" property="storeId"/>
+        <result column="model_id" jdbcType="INTEGER" property="modelId" />
+        <result column="logistics_weight" jdbcType="INTEGER" property="logisticsWeight" />
+        <result column="logistics_tag" jdbcType="VARCHAR" property="logisticsTag" />
+        <result column="logistics_id" jdbcType="INTEGER" property="logisticsId" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="reply_time" jdbcType="TIMESTAMP" property="replyTime" />
+        <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime" />
+        <result column="logistics_type" jdbcType="INTEGER" property="logisticsType" />
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+        <result column="company_name" jdbcType="INTEGER" property="companyName"/>
+        <result column="company_code" jdbcType="INTEGER" property="companyCode"/>
+    </resultMap>
+
+    <select id="findViewModelByTag" parameterType="String" resultMap="ViewResultMap">
+        SELECT oiat.order_id,oiat.order_tag,oiat.pay_price,oiat.order_type,oiat.create_time,oiat.mail_price,oiat.create_time,oiat.store_id,oiat.wx_address_info,oiat.order_remark,
+        liat.model_id,liat.logistics_weight,liat.logistics_tag,liat.update_time,liat.reply_time,liat.receive_time,liat.logistics_id,
+        lcat.company_id,lcat.company_name,lcat.company_code
+        from order_info_acy_t oiat
+        LEFT JOIN logistics_info_acy_t liat on oiat.logistics_id = liat.logistics_id
+        LEFT JOIN logistics_model_acy_t lmat on liat.model_id = lmat.model_id
+        LEFT JOIN logistics_company_acy_t lcat on lmat.company_id = lcat.company_id
+        where oiat.order_tag = #{orderTag}
+    </select>
+
+    <select id="findViewModelByPrimaryKey" parameterType="Integer" resultMap="ViewResultMap">
+        SELECT oiat.order_id,oiat.order_tag,oiat.pay_price,oiat.order_type,oiat.create_time,oiat.mail_price,oiat.create_time,oiat.store_id,oiat.wx_address_info,oiat.order_remark,
+        liat.model_id,liat.logistics_weight,liat.logistics_tag,liat.update_time,liat.reply_time,liat.receive_time,liat.logistics_id,
+        lcat.company_id,lcat.company_name,lcat.company_code
+        from order_info_acy_t oiat
+        LEFT JOIN logistics_info_acy_t liat on oiat.logistics_id = liat.logistics_id
+        LEFT JOIN logistics_model_acy_t lmat on liat.model_id = lmat.model_id
+        LEFT JOIN logistics_company_acy_t lcat on lmat.company_id = lcat.company_id
+        where oiat.order_id = #{orderId}
+    </select>
 
 </mapper>

@@ -12,15 +12,22 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author acy 屋大维
+ */
 @Service("commoditySpecificationService")
 public class CommoditySpecificationServiceImpl implements CommoditySpecificationService {
 
+    private final CommoditySpecificationMapper commoditySpecificationDao;
+
     @Autowired
-    private CommoditySpecificationMapper commoditySpecificationDao;
+    public CommoditySpecificationServiceImpl(CommoditySpecificationMapper commoditySpecificationDao) {
+        this.commoditySpecificationDao = commoditySpecificationDao;
+    }
 
     @Override
     public int addSpecification(CommoditySpecification commoditySpecification) {
-        if (commoditySpecification == null || commoditySpecification.isEmpty()) {
+        if (commoditySpecification == null || commoditySpecification.notEmpty()) {
             return -1;
         }
         commoditySpecification.setCreateTime(TimeUtil.getDateTime(1));
@@ -88,7 +95,6 @@ public class CommoditySpecificationServiceImpl implements CommoditySpecification
         }
         commoditySpecificationDao.updateSortNumbers(sortNumber);
         return commoditySpecificationDao.updateSortNumber(specificationId,1);
-
     }
 
     @Override

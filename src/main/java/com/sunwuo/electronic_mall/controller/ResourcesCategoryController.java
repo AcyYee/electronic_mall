@@ -11,12 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author acy 屋大维
+ */
 @RestController
 @RequestMapping("resources/category")
 public class ResourcesCategoryController {
 
+    private final ResourcesCategoryService resourcesCategoryService;
+
     @Autowired
-    private ResourcesCategoryService resourcesCategoryService;
+    public ResourcesCategoryController(ResourcesCategoryService resourcesCategoryService) {
+        this.resourcesCategoryService = resourcesCategoryService;
+    }
 
     /**
      * 添加资源分类数据
@@ -128,6 +135,5 @@ public class ResourcesCategoryController {
         response.setHeader("Access-Control-Allow-Origin","*");
         return ResultObject.returnResultObject(resourcesCategoryService.sortResourcesCategory(categoryId,sortNumber),null);
     }
-
 
 }

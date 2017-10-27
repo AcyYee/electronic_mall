@@ -1,10 +1,10 @@
 package com.sunwuo.electronic_mall.service;
 
-import java.util.List;
 
 import com.sunwuo.electronic_mall.entity.AdminInfo;
 import com.sunwuo.electronic_mall.entity.StoreInfo;
 import com.sunwuo.electronic_mall.entity.StoreProject;
+import com.sunwuo.electronic_mall.vo.PageData;
 
 public interface StoreInfoService {
 
@@ -14,10 +14,12 @@ public interface StoreInfoService {
 
 	int addStore(StoreInfo storeInfo, StoreProject storeProject, AdminInfo adminInfo);
 
-	List<StoreProject> getStoreProject();
-
-	StoreInfo storeLogin(StoreInfo storeInfo);
-
 	StoreProject getStoreInfoByAppid(String appid);
+
+    PageData findStores(Integer storeType, Integer pageIndex, Integer pageSize);
+
+	int deleteStoreINFOS(int[] storeInfoIds);
+
+	int updateType(int[] storeInfoIds, Integer storeType);
 
 }

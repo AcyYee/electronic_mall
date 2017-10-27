@@ -1,8 +1,13 @@
+
 spring:
   http:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://www.tongzhuhe.com/sunwou_eleMall_10?useUnicode=true&characterEncoding=utf-8&useSSL=false
@@ -58,3 +63,7 @@ logging:
 mybatis:
   typeAliasesPackage: com.sunwuo.electronic_mall.entity
   mapperLocations: classpath:mapper/*.xml
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
